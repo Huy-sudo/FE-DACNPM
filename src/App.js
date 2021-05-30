@@ -1,25 +1,45 @@
-import logo from './logo.svg';
+import React, { Component } from 'react';
 import './App.css';
+import 'antd/dist/antd.css';
+import { connect } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router'
+import { Route, Switch, Redirect } from 'react-router-dom';
+import router from './routes'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  render() {
+    console.log(router);
+    let key = 1
+    return (
+      <div className="App">
+        <ConnectedRouter history={this.props.history}>
+          {/* <Layout {...this.props}> */}
+          <Switch>
+            {router.map(d =>{ 
+              key += 1
+             return <Route exact
+                path={d.path}
+                key={key}
+                component={d.component}
+                // render={(d)=> (d.component) }
+              >
+                {/* <div> d</div> */}
+                
+              </Route>}
+            )}
+          <Redirect from="*" to="/errors/404"/>
+          </Switch>
+        </ConnectedRouter>
+      </div>
+    );
+  }
 }
 
-export default App;
+export default connect(
+  (state) => ({
+
+  }),
+  dispatch => ({
+
+  })
+)((App));
