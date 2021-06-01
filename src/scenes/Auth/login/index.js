@@ -4,8 +4,13 @@ import { connect } from 'react-redux'
 import Layout from '../../../layouts/index'
 import FormLogin from './components/FormLogin'
 import {login} from './action'
+import Cookies from 'js-cookie'
+
 class index extends Component {
 
+    componentDidMount=()=>{
+
+    }
     handleSubmit = (value) =>{
         this.props.login(value);
     }

@@ -3,6 +3,8 @@ import { Field, reduxForm } from 'redux-form'
 import RenderDateTimePicker from '../../../share/components/RenderDateTimePicker'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
+import RenderSelect from '../../../share/components/RenderSelect'
+import RenderInputText from '../../../share/components/RenderInputText'
 let ContactForm = props => {
     const { handleSubmit } = props
     return (
@@ -13,6 +15,14 @@ let ContactForm = props => {
                             name="date"
                             component={RenderDateTimePicker}
                             placeholder='Date'
+                            showTime={false}
+                        />
+                    </div>
+                    <div className='col-3 mb-3 text-left' >
+                        <Field
+                            name="code"
+                            component={RenderInputText}
+                            placeholder='code'
                             showTime={false}
                         />
                     </div>

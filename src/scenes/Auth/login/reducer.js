@@ -1,7 +1,8 @@
 import { action_type as type } from './action'
 
 const initialState = {
-    loading: false
+    loading: false,
+    user: {}
 }
 
 function reducer(state = initialState, action) {
@@ -14,10 +15,25 @@ function reducer(state = initialState, action) {
         case type.LOGIN.SUCCESS:
             return {
                 ...state,
-
                     loading: false,
             }
         case type.LOGIN.ERROR:
+            return {
+                ...state,
+                    loading: false,
+            }    
+        case type.VERIFY.REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case type.VERIFY.SUCCESS:
+            return {
+                ...state,
+                    loading: false,
+                    user: action?.data || {}
+            }
+        case type.VERIFY.ERROR:
             return {
                 ...state,
                     loading: false,

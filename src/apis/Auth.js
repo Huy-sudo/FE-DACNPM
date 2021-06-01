@@ -18,6 +18,13 @@ export const getDetail =(id, params)=> {
     })
 }
 
+export const verify =(params)=> {
+    return axios({
+        method: 'GET',
+        params,
+        url: `user`
+    })
+}
 export const getDetailByCode =(booking_code)=> {
     return axios({
         method: 'GET',

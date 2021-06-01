@@ -1,7 +1,6 @@
 import React from 'react';
 import { Table, Spin } from 'antd';
 const DataTable = ({dataSource, loading}) => {
-  console.log(dataSource);
     const columns = [
         {
             title: '#',

@@ -4,40 +4,37 @@ import { connect } from 'react-redux'
 import FormFilter from '../Prescription/components/FormFilter'
 import Layout from '../../layouts'
 import DataTable from './components/DataTable'
-
+import queryString from 'query-string'
 import {getList} from './action'
 import moment from 'moment'
 class index extends Component {
     constructor(props) {
         super(props);
-        this.state={
-            initialValue: {
-
-            }
-        }
+        const query_params = queryString.parse(window.location.search);
+        this.state = { 
+            initial_filter_values: query_params,
+        };
     }
     componentDidMount(){
-        this.handleSubmitFilter({data_customer:1})
+        this.handleSubmitFilter(this.state.initial_filter_values)
     }
-    handleSubmit = ({date,...values}) => {
-        
+    handleSubmitFilter = ({date,...values}) => {
+        console.log(date);
         let params = {
             ...values,
             data_customer:1
            }
-        if(values.date){
-            params.from_date =  params.to_date = values.date.format('YYYY-MM-DD')
-        }
-       
-        this.handleSubmitFilter(params)
-    }
-    handleSubmitFilter =(params)=>{
+        if(date){
+            params.from_date =  params.to_date = date.format('YYYY-MM-DD')
+        } 
+        this.props.history.replace(window.location.pathname + '?' + queryString.stringify(params));
         this.props.getList(params)
     }
+
     render() {
         const {prescriptions} = this.props
-        const {initialValue } = this.state
-        console.log(prescriptions.data)
+        const {initial_filter_values } = this.state
+
         return (
             <div>
                 <Layout>
@@ -46,8 +43,8 @@ class index extends Component {
                         <span className='h5 font-weight-bold '>Prescriptions</span>
                     </div>
                         <FormFilter
-                            initialValues={initialValue}
-                            onSubmit={this.handleSubmit}
+                            initialValues={initial_filter_values}
+                            onSubmit={this.handleSubmitFilter}
                         />
                         <DataTable 
                             dataSource={prescriptions.data || []}
