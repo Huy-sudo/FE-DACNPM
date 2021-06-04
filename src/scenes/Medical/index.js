@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Button, Spin } from 'antd';
+import DataTable from './components/DataTable';
+import FormFilter from './components/FormFilter'
 import Layout from '../../layouts'
 import { getList } from './action'
 import { connect } from 'react-redux'
@@ -14,7 +17,7 @@ class index extends Component {
 
     }
 
-    componentWillMount() {
+    componentWillMount() {  
 
     }
 
@@ -42,12 +45,38 @@ class index extends Component {
 
     }
 
+    handleSubmitFilter = ({date,...values}) => {
+        console.log(date);
+        let params = {
+            ...values,
+           }
+        if(date){
+            params.from_date =  params.to_date = date.format('YYYY-MM-DD')
+        } 
+        this.props.history.replace(window.location.pathname + '?' + queryString.stringify(params));
+        this.props.getList(params)
+    }
+
     render() {
+        const {medical} = this.props
+
+        const {initial_filter_values } = this.state
+
         return (
             <Layout>
+                <Spin spinning={false} style={{ backgroundColor: '#fafafa' }}>
                     <div className='container-fluid mb-3 text-left py-2'>
                         <span className='h5 font-weight-bold '>Medical</span>
                     </div>
+                    <FormFilter
+                            initialValues={initial_filter_values}
+                            onSubmit={this.handleSubmitFilter}
+                        />
+                        <DataTable 
+                            dataSource={medical.data || []}
+                            loading={medical.loading}
+                        />
+                </Spin>
             </Layout>
         )
     }

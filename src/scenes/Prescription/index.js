@@ -46,7 +46,7 @@ class index extends Component {
                             initialValues={initial_filter_values}
                             onSubmit={this.handleSubmitFilter}
                         />
-                        <DataTable 
+                        <DataTable
                             dataSource={prescriptions.data || []}
                             loading={prescriptions.loading}
                         />
