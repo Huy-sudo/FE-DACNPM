@@ -14,13 +14,33 @@ const DataTable = ({dataSource, loading}) => {
           render: (value,record) => <a>{value || ''}</a>,
         },
         {
-          title: 'Customer',
-          dataIndex: 'customer',
-          key: 'customer',
+          title: 'Name',
+          dataIndex: 'name',
+          key: 'name',
           className: 'text-left',
           render: (value,record) => 
           <div>
-              <span> {value?.name || ''} - {value?.phone || ''} </span>
+              <span> {value || ''}  </span>
+          </div>
+        },
+        {
+          title: 'Unit',
+          dataIndex: 'unit',
+          key: 'unit',
+          className: 'text-left',
+          render: (value,record) => 
+          <div>
+              <span> {value || ''}  </span>
+          </div>
+        },
+        {
+          title: 'In_stock',
+          dataIndex: 'in_stock',
+          key: 'in_stock',
+          className: 'text-left',
+          render: (value,record) => 
+          <div>
+              <span> {value || 0}  </span>
           </div>
         },
         {
@@ -30,7 +50,7 @@ const DataTable = ({dataSource, loading}) => {
           width: 150,
           render: (value,record) => 
           <div>
-              <span className={ value == 1 ? 'text-info' : 'text-success'}>{ value == 1 ? 'Pending' : 'Completed' }</span>
+              <span className={ value == 1 ? 'badge-success badge' : 'badge badge-danger'}>{ value == 1 ? 'Active' : 'Inactive' }</span>
           </div>
         },]
     return (

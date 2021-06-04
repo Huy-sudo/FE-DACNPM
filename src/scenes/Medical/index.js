@@ -17,36 +17,17 @@ class index extends Component {
 
     }
 
-    componentWillMount() {  
-
-    }
 
     componentDidMount() {
-
-    }
-
-    componentWillReceiveProps(nextProps) {
-
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-
+        this.handleSubmitFilter(this.state.initial_filter_values)
     }
 
     componentDidUpdate(prevProps, prevState) {
 
     }
 
-    componentWillUnmount() {
-
-    }
 
     handleSubmitFilter = ({date,...values}) => {
-        console.log(date);
         let params = {
             ...values,
            }
@@ -83,7 +64,8 @@ class index extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    user: state.login.user
+    user: state.login.user,
+    medical: state.medical
 })
 
 const mapDispatchToProps = dispatch => ({

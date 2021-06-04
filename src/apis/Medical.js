@@ -1,6 +1,6 @@
 import axios from '../requestV2'
 
-const prefix = '/medical';
+const prefix = '/medicine';
 
 export const getList =(params)=> {
     return axios({
