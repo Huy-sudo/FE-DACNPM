@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Layout from '../../layouts'
-import { getList } from './actions'
+import { getList } from './action'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 class index extends Component {

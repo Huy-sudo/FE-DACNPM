@@ -8,7 +8,7 @@ import {
 import {
       action_type as TYPE
   } from './action'  
-import * as api from '../../apis/Prescriptions'
+import * as api from '../../apis/Medical'
   
 function* getListSaga(action) {
       try {
@@ -16,21 +16,21 @@ function* getListSaga(action) {
           const response = yield call(api.getList, params)
           if(response.status){
                   yield all([
-                      put({type: TYPE.DASHBOARD.SUCCESS, ...response}),
+                      put({type: TYPE.MEDICAL.SUCCESS, ...response}),
                   ])
           }else{
-            yield put({type: TYPE.DASHBOARD.ERROR, error: response})
+            yield put({type: TYPE.MEDICAL.ERROR, error: response})
           }
       } catch (error) {
           yield all([
-              put({type: TYPE.DASHBOARD.ERROR, error})
+              put({type: TYPE.MEDICAL.ERROR, error})
           ])
       }
   }
   
   function* watcher() {
       yield all([
-          takeLatest(TYPE.PRESCRIPTION.REQUEST, getListSaga),
+          takeLatest(TYPE.MEDICAL.REQUEST, getListSaga),
       ])
   }
   

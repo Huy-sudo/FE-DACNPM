@@ -11,7 +11,6 @@ const DataTable = ({dataSource, loading}) => {
           title: 'Code',
           dataIndex: 'code',
           key: 'code',
-          width: 200,
           render: (value,record) => <a>{value || ''}</a>,
         },
         {
@@ -19,32 +18,10 @@ const DataTable = ({dataSource, loading}) => {
           dataIndex: 'customer',
           key: 'customer',
           className: 'text-left',
-          width: 300,
           render: (value,record) => 
           <div>
               <span> {value?.name || ''} - {value?.phone || ''} </span>
           </div>
-        },
-        {
-          title: 'Date',
-          dataIndex: 'created_at',
-          key: 'created_at',
-          width: 150,
-          render: (value,record) => <a>{value?.created_at || ''}</a>,
-        },
-        {
-          title: 'Symptom',
-          dataIndex: 'symptoms',
-          key: 'symptoms',
-          width: 200,
-          render: (value,record) => <a>{value?.symptoms || ''}</a>,
-        },
-        {
-          title: 'Disease',
-          dataIndex: 'diseases',
-          key: 'diseases',
-          width: 200,
-          render: (value,record) => <a>{value?.diseases || ''}</a>,
         },
         {
           title: 'Status',

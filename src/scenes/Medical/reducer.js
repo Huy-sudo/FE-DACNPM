@@ -7,18 +7,18 @@ const initialState = {
 
 function reducer(state = initialState, action) {
     switch (action.type) {
-        case type.DASHBOARD.REQUEST:
+        case type.MEDICAL.REQUEST:
             return {
                 ...state,
                 loading: true
             }
-        case type.DASHBOARD.SUCCESS:
+        case type.MEDICAL.SUCCESS:
             return {
                 ...state,
                     data: action.data,
                     loading: false,
             }
-        case type.DASHBOARD.ERROR:
+        case type.MEDICAL.ERROR:
             return {
                 ...state,
                     loading: false,

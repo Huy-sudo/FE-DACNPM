@@ -6,6 +6,7 @@ import prescriptions from "./scenes/Prescription/reducer"
 import Customers from "./scenes/Customers/reducer"
 import prescriptionDetail from "./scenes/PrescriptionDetail/reducer"
 import customerDetail from "./scenes/CustomerDetail/reducer"
+import medical from "./scenes/Medical/reducer"
 
 const Reducer = (history) => combineReducers({    
     form: formReducer,
@@ -14,7 +15,8 @@ const Reducer = (history) => combineReducers({
     prescriptions,
     Customers,
     prescriptionDetail,
-    customerDetail
+    customerDetail,
+    medical
   })
   
 export default Reducer
