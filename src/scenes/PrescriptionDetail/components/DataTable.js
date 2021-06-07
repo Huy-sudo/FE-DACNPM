@@ -1,5 +1,7 @@
 import React from 'react';
 import { Table, Spin } from 'antd';
+import { Field, reduxForm } from 'redux-form'
+import RenderInputText from '../../../share/components/RenderInputText'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {  faPlus } from '@fortawesome/free-solid-svg-icons'
 const DataTable = ({dataSource, loading, handleShowForm}) => 

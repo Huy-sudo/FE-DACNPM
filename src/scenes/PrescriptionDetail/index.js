@@ -5,8 +5,9 @@ import FormFilter from '../PrescriptionDetail/components/FormFilter'
 import Layout from '../../layouts'
 import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddCustomer'
+import FormAdd from './components/InputAddSymptomAndDisease'
 import PrescriptionDetail from './components/PrescriptionDetail'
-import { getDetail, addMedicine } from './action'
+import { getDetail, addMedicine, addDetail } from './action'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -43,6 +44,20 @@ class index extends Component {
         this.setState({showForm:false})
     }
 
+    handleAddDetail= ({value}) =>
+    {
+        const { prescriptionDetail } = this.props
+        let data={
+            ...value,
+            uses: parseInt(uses),
+            PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
+            prescription_detail_id:this.props.match.params?.id || 0
+        }
+        this.props.addMedicine(data)
+        this.setState({showForm:false})
+    }
+
+
     handleCloseModal = (value)=>
     {
         this.setState({showForm: false})
@@ -67,6 +82,15 @@ class index extends Component {
                                     prescriptionDetail={prescriptionDetail.data}
                                     loading={prescriptionDetail.loading}
                                 />
+                                <FormAdd
+                                destroyOnClose={true}
+                                keyboard={true}
+                                closable
+                                maskClosable={true}
+                                onCancel={()=>this.handleShowForm(false)}
+                                onSubmit={this.handleAddDetail}
+                                handleShowForm={this.handleShowForm}
+                                />
                             </Spin>
                         </div>
                         <div className="col-8">
@@ -78,15 +102,13 @@ class index extends Component {
                         <Modal 
                         title="Add Medicine" 
                         visible={showForm} 
-                        onOk={()=>{console.log(123)}} 
-                        closable={true}
+                        closable={false}
                         onCancel={this.props.handleCloseModal}
                         footer= {null}
                         >
                             <FormAddCustomer
                                 destroyOnClose={true}
                                 keyboard={true}
-                                closable
                                 maskClosable={true}
                                 onCancel={()=>this.handleShowForm(false)}
                                 initialValues={{amount:1}}
@@ -113,6 +135,9 @@ const mapDispatchToProps = dispatch => ({
     addMedicine: (data) => {
         dispatch(addMedicine(data))
     },
+    addDetail: (data) => {
+        dispatch(addDetail(data))
+    } 
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Table, Spin } from 'antd';
 const DataTable = ({dataSource, loading}) => {
+  console.log(dataSource);
     const columns = [
         {
             title: '#',
@@ -30,7 +31,7 @@ const DataTable = ({dataSource, loading}) => {
           className: 'text-left',
           render: (value,record) => 
           <div>
-              <span> {value || ''}  </span>
+              <span> {value + ' - ' + record?.medicine?.value || ''}  </span>
           </div>
         },
         {

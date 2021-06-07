@@ -47,11 +47,32 @@ function* getDetailSaga(action) {
         ])
     }
 }
+
+function* addDetail(action) {
+    try {
+        const { data: {prescription_detail_id, ...data} } = action
+        const response = yield call(api.addDetail, data)
+        if(response.status){
+                yield all([
+                    put({type: TYPE.ADDDETAIL.SUCCESS, ...response}),
+                    put({type: TYPE.PRESCRIPTIONDETAIL.REQUEST, id: prescription_detail_id }),
+                ])
+        }else{
+          yield put({type: TYPE.ADDDETAIL.ERROR, error: response})
+        }
+    } catch (error) {
+        yield all([
+            put({type: TYPE.ADDDETAIL.ERROR, error})
+        ])
+    }
+}
+  
   
   function* watcher() {
       yield all([
           takeLatest(TYPE.PRESCRIPTIONDETAIL.REQUEST, getDetailSaga),
           takeLatest(TYPE.ADDMEDICINE.REQUEST, addMedicine),
+          takeLatest(TYPE.ADDDETAIL.REQUEST, addDetail)
       ])
   }
   

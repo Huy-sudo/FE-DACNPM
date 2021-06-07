@@ -25,6 +25,14 @@ export const addMedicine =(data)=> {
     })
 }
 
+export const addDetail =(data)=> {
+    return axios({
+        method: 'POST',
+        data,
+        url: `/prescription`
+    })
+}
+
 // export const getDetailByCode =(booking_code)=> {
 //     return axios({
 //         method: 'GET',
