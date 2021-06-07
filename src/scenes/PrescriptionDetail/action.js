@@ -13,6 +13,11 @@ export const action_type = {
         REQUEST: "ADDDETAIL.REQUEST",
         SUCCESS: "ADDDETAIL.SUCCESS",
         ERROR: "ADDDETAIL.ERROR"
+    },
+    SYMPTOMS: {
+        REQUEST: "SYMPTOMS.GET_LIST.REQUEST",
+        SUCCESS: "SYMPTOMS.GET_LIST.SUCCESS",
+        ERROR: "SYMPTOMS.GET_LIST.ERROR"
     }
 }
 
@@ -37,5 +42,12 @@ export function addDetail (data)
     return {
         type: action_type.ADDDETAIL.REQUEST,
         data,
+    }
+}
+
+export function getListSymptoms (params){
+    return {
+        type: action_type.SYMPTOMS.REQUEST,
+        params,
     }
 }

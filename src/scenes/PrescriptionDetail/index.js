@@ -7,7 +7,7 @@ import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddCustomer'
 import FormAdd from './components/InputAddSymptomAndDisease'
 import PrescriptionDetail from './components/PrescriptionDetail'
-import { getDetail, addMedicine, addDetail } from './action'
+import { getDetail, addMedicine, addDetail, getListSymptoms } from './action'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -25,6 +25,7 @@ class index extends Component {
 
     componentDidMount=()=>{
         this.props.getDetail(this.props.match.params?.id)
+        this.props.getListSymptoms()
     }
 
     handleShowForm = (value) => {
@@ -33,38 +34,40 @@ class index extends Component {
 
     handleAddMedicine= ({uses, ...value}) =>
     {
-        const { prescriptionDetail } = this.props
-        let data={
-            ...value,
-            uses: parseInt(uses),
-            PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
-            prescription_detail_id:this.props.match.params?.id || 0
-        }
-        this.props.addMedicine(data)
-        this.setState({showForm:false})
+        // const { prescriptionDetail } = this.props
+        // let data={
+        //     ...value,
+        //     uses: parseInt(uses),
+        //     PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
+        //     prescription_detail_id:this.props.match.params?.id || 0
+        // }
+        // this.props.addMedicine(data)
+        // this.setState({showForm:false})
     }
 
     handleAddDetail= ({value}) =>
     {
-        const { prescriptionDetail } = this.props
-        let data={
-            ...value,
-            uses: parseInt(uses),
-            PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
-            prescription_detail_id:this.props.match.params?.id || 0
-        }
-        this.props.addMedicine(data)
-        this.setState({showForm:false})
+        // const { prescriptionDetail } = this.props
+        // let data={
+        //     ...value,
+        //     uses: parseInt(uses),
+        //     PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
+        //     prescription_detail_id:this.props.match.params?.id || 0
+        // }
+        // this.props.addMedicine(data)
+        // this.setState({showForm:false})
     }
 
+    handleEdit = (values) =>{
+        console.log((values.symptoms || []).join("; "));
+    }
 
     handleCloseModal = (value)=>
     {
         this.setState({showForm: false})
     }
     render() {
-        const { prescriptionDetail } = this.props
-        console.log(prescriptionDetail);
+        const { prescriptionDetail, symtoms } = this.props
         const { initialValue, phone, showForm } = this.state
         const initialValueFormAddCustomer = {
             phone: phone
@@ -79,10 +82,12 @@ class index extends Component {
                         <div className="col-4 pt-3 bg-white">
                             <Spin spinning={false} style={{ backgroundColor: '#fafafa' }}>
                                 <PrescriptionDetail
+                                    handleEdit={this.handleEdit}
                                     prescriptionDetail={prescriptionDetail.data}
                                     loading={prescriptionDetail.loading}
+                                    symtoms={prescriptionDetail.symtoms}
                                 />
-                                <FormAdd
+                                {/* <FormAdd
                                 destroyOnClose={true}
                                 keyboard={true}
                                 closable
@@ -90,7 +95,7 @@ class index extends Component {
                                 onCancel={()=>this.handleShowForm(false)}
                                 onSubmit={this.handleAddDetail}
                                 handleShowForm={this.handleShowForm}
-                                />
+                                /> */}
                             </Spin>
                         </div>
                         <div className="col-8">
@@ -125,12 +130,16 @@ class index extends Component {
 }
 
 const mapStateToProps = (state) => ({
-    prescriptionDetail: state.prescriptionDetail
+    prescriptionDetail: state.prescriptionDetail,
+    symtoms: state.symtoms
 })
 
 const mapDispatchToProps = dispatch => ({
     getDetail: (params) => {
         dispatch(getDetail(params))
+    },
+    getListSymptoms: (params) => {
+        dispatch(getListSymptoms(params))
     },
     addMedicine: (data) => {
         dispatch(addMedicine(data))

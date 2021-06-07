@@ -9,6 +9,7 @@ import {
       action_type as TYPE
   } from './action'  
 import * as api from '../../apis/Prescriptions'
+import * as apiSymtoms from '../../apis/symptoms'
   
 function* getDetailSaga(action) {
       try {
@@ -66,13 +67,30 @@ function* addDetail(action) {
         ])
     }
 }
-  
+function* getListSymptomSaga(action) {
+    try {
+        const { params } = action
+        const response = yield call(apiSymtoms.getList, params)
+        if(response.status){
+                yield all([
+                    put({type: TYPE.SYMPTOMS.SUCCESS, ...response}),
+                ])
+        }else{
+          yield put({type: TYPE.SYMPTOMS.ERROR, error: response})
+        }
+    } catch (error) {
+        yield all([
+            put({type: TYPE.SYMPTOMS.ERROR, error})
+        ])
+    }
+}
   
   function* watcher() {
       yield all([
           takeLatest(TYPE.PRESCRIPTIONDETAIL.REQUEST, getDetailSaga),
           takeLatest(TYPE.ADDMEDICINE.REQUEST, addMedicine),
-          takeLatest(TYPE.ADDDETAIL.REQUEST, addDetail)
+          takeLatest(TYPE.ADDDETAIL.REQUEST, addDetail),
+          takeLatest(TYPE.SYMPTOMS.REQUEST, getListSymptomSaga)
       ])
   }
   
