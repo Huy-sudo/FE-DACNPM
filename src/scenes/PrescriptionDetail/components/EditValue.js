@@ -9,8 +9,6 @@ let ContactForm = props => {
     const { handleSubmit, options, handleCancel } = props
     return (
         <form onSubmit={handleSubmit}>
-
-
                     <Space>
                         <Field
                         style={{width: '270px'}}
@@ -23,8 +21,6 @@ let ContactForm = props => {
                             size="small"
                             showTime={false}
                         />
-                        
-
                         <button className='btn btn-primary btn-sm' type="submit"> <FontAwesomeIcon icon={faSave} /> </button>
                         <button className='btn btn-secondary btn-sm' onClick={()=>handleCancel()} > <FontAwesomeIcon icon={faTimes} /></button>
                         </Space>

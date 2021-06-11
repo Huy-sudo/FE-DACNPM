@@ -7,7 +7,7 @@ import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddCustomer'
 import FormAdd from './components/InputAddSymptomAndDisease'
 import PrescriptionDetail from './components/PrescriptionDetail'
-import { getDetail, addMedicine, addDetail, getListSymptoms } from './action'
+import { getDetail, addMedicine, addDetail, getListSymptoms, updateSymptom } from './action'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -34,15 +34,15 @@ class index extends Component {
 
     handleAddMedicine= ({uses, ...value}) =>
     {
-        // const { prescriptionDetail } = this.props
-        // let data={
-        //     ...value,
-        //     uses: parseInt(uses),
-        //     PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
-        //     prescription_detail_id:this.props.match.params?.id || 0
-        // }
-        // this.props.addMedicine(data)
-        // this.setState({showForm:false})
+        const { prescriptionDetail } = this.props
+        let data={
+            ...value,
+            uses: parseInt(uses),
+            PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
+            prescription_detail_id:this.props.match.params?.id || 0
+        }
+        this.props.addMedicine(data)
+        this.setState({showForm:false})
     }
 
     handleAddDetail= ({value}) =>
@@ -59,7 +59,13 @@ class index extends Component {
     }
 
     handleEdit = (values) =>{
-        console.log((values.symptoms || []).join("; "));
+        const { prescriptionDetail } = this.props
+        let data={
+            ...values,
+        }
+        console.log(prescriptionDetail.data.id);
+        this.props.updateSymptom(prescriptionDetail.data.id, data.symptoms)
+        this.setState({showForm:false})
     }
 
     handleCloseModal = (value)=>
@@ -146,7 +152,10 @@ const mapDispatchToProps = dispatch => ({
     },
     addDetail: (data) => {
         dispatch(addDetail(data))
-    } 
+    },
+    updateSymptom: (data) => {
+        dispatch(updateSymptom(data))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)
