@@ -8,7 +8,10 @@ import RenderSelect from '../../../share/components/RenderSelect'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave, faTimes } from '@fortawesome/free-solid-svg-icons'
 let ModalAddCustomer = props => {
-    const { handleSubmit, handleShowForm } = props
+    const { handleSubmit, handleShowForm, medical = [] } = props
+    let options = medical.map(d=>{
+        return {label: d.name, value: d.code }
+    }) || []
     return (
         <form onSubmit={handleSubmit}>
             <div className='row bg-white m-3' >
@@ -17,11 +20,8 @@ let ModalAddCustomer = props => {
                         <Field
                             name="medicine_code"
                             component={RenderSelect}
-                            options={[{label:'thuocA',
-                                        value:'nokv8',
-                                    }]}
-                            
-                            placeholder='medicine_code'
+                            options={options}
+                            placeholder='medicine'
                         />
                     </div>
                     <div className='col-3 mb-3 text-left' >
@@ -45,7 +45,7 @@ let ModalAddCustomer = props => {
                     </div>
                     <div className='col-12 text-center'>
                     <button className='btn btn-primary mr-3' type="submit"> <FontAwesomeIcon icon={faSave} /> Save</button>
-                    <button onClick={()=>handleShowForm(false)} className='btn btn-secondary'> <FontAwesomeIcon icon={faTimes} /> Cancel</button>
+                    <a onClick={()=>handleShowForm(false)} className='btn btn-secondary'> <FontAwesomeIcon icon={faTimes} /> Cancel</a>
                     </div>
 
             </div>

@@ -36,7 +36,20 @@ function reducer(state = initialState, action) {
         case type.SYMPTOMS.ERROR:
             return {
                 ...state,
-            }     
+            }
+            
+        case type.UPDATE.REQUEST:
+            console.log(action);
+            return {
+                ...state,
+                loading: true
+            }
+        case type.UPDATE.SUCCESS:
+        case type.UPDATE.ERROR:
+            return {
+                ...state,
+                loading: false
+            }
         default:
             return state
     }

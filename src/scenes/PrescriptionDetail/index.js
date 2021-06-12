@@ -7,7 +7,8 @@ import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddCustomer'
 import FormAdd from './components/InputAddSymptomAndDisease'
 import PrescriptionDetail from './components/PrescriptionDetail'
-import { getDetail, addMedicine, addDetail, getListSymptoms, updateSymptom } from './action'
+import { getDetail, addMedicine, addDetail, getListSymptoms, update } from './action'
+import { getList as getListMedical } from "../Medical/action";
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -26,6 +27,7 @@ class index extends Component {
     componentDidMount=()=>{
         this.props.getDetail(this.props.match.params?.id)
         this.props.getListSymptoms()
+        this.props.getListMedical({limit: 999})
     }
 
     handleShowForm = (value) => {
@@ -59,12 +61,12 @@ class index extends Component {
     }
 
     handleEdit = (values) =>{
-        const { prescriptionDetail } = this.props
+        // const { prescriptionDetail : { data : { id } } } = this.props
+        let id = this.props?.prescriptionDetail?.data?.id || 0
         let data={
-            ...values,
+            symptoms: (values?.symptoms || []).join(';') || ''
         }
-        console.log(prescriptionDetail.data.id);
-        this.props.updateSymptom(prescriptionDetail.data.id, data.symptoms)
+        this.props.update(id, data)
         this.setState({showForm:false})
     }
 
@@ -73,7 +75,7 @@ class index extends Component {
         this.setState({showForm: false})
     }
     render() {
-        const { prescriptionDetail, symtoms } = this.props
+        const { prescriptionDetail, symtoms, medical } = this.props
         const { initialValue, phone, showForm } = this.state
         const initialValueFormAddCustomer = {
             phone: phone
@@ -84,8 +86,8 @@ class index extends Component {
                     <div className='container-fluid mb-3 text-left py-2'>
                         <span className='h5 font-weight-bold '>Prescription Detail</span>
                     </div>
-                    <div className="row">
-                        <div className="col-4 pt-3 bg-white">
+                    <div className="row px-2">
+                        <div className="col-4 pt-3 bg-white px-4">
                             <Spin spinning={false} style={{ backgroundColor: '#fafafa' }}>
                                 <PrescriptionDetail
                                     handleEdit={this.handleEdit}
@@ -107,6 +109,7 @@ class index extends Component {
                         <div className="col-8">
                         <DataTable
                         handleShowForm={this.handleShowForm}
+                       
                         dataSource={prescriptionDetail?.data?.prescription_detail?.medicine}
                         loading={prescriptionDetail.loading}
                         />
@@ -121,6 +124,7 @@ class index extends Component {
                                 destroyOnClose={true}
                                 keyboard={true}
                                 maskClosable={true}
+                                medical={medical.data}
                                 onCancel={()=>this.handleShowForm(false)}
                                 initialValues={{amount:1}}
                                 onSubmit={this.handleAddMedicine}
@@ -137,7 +141,8 @@ class index extends Component {
 
 const mapStateToProps = (state) => ({
     prescriptionDetail: state.prescriptionDetail,
-    symtoms: state.symtoms
+    symtoms: state.symtoms,
+    medical: state.medical
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -153,9 +158,13 @@ const mapDispatchToProps = dispatch => ({
     addDetail: (data) => {
         dispatch(addDetail(data))
     },
-    updateSymptom: (data) => {
-        dispatch(updateSymptom(data))
-    }
+    update: (id,data) => {
+        dispatch(update(id,data))
+    },
+    getListMedical: (params) => {
+        dispatch(getListMedical(params))
+    },
+    
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)

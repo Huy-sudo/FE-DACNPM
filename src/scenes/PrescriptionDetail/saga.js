@@ -87,19 +87,21 @@ function* getListSymptomSaga(action) {
 
 function* updateSymptom(action) {
     try {
-        const { data: {prescription_detail_id, ...data} } = action
-        const response = yield call(api.update, data)
+        const { id, data } = action
+        console.log(action);
+        const response = yield call(api.update, id, data)
+        console.log(response);
         if(response.status){
                 yield all([
-                    put({type: TYPE.UPDATESYMPTOMS.SUCCESS, ...response}),
-                    put({type: TYPE.PRESCRIPTIONDETAIL.REQUEST, id: prescription_detail_id }),
+                    put({type: TYPE.UPDATE.SUCCESS, ...response}),
+                    put({type: TYPE.PRESCRIPTIONDETAIL.REQUEST, id }),
                 ])
         }else{
-          yield put({type: TYPE.UPDATESYMPTOMS.ERROR, error: response})
+          yield put({type: TYPE.UPDATE.ERROR, error: response})
         }
     } catch (error) {
         yield all([
-            put({type: TYPE.UPDATESYMPTOMS.ERROR, error})
+            put({type: TYPE.UPDATE.ERROR, error})
         ])
     }
 }
@@ -110,7 +112,7 @@ function* updateSymptom(action) {
           takeLatest(TYPE.ADDMEDICINE.REQUEST, addMedicine),
           takeLatest(TYPE.ADDDETAIL.REQUEST, addDetail),
           takeLatest(TYPE.SYMPTOMS.REQUEST, getListSymptomSaga),
-          takeLatest(TYPE.UPDATESYMPTOMS.REQUEST, updateSymptom)
+          takeLatest(TYPE.UPDATE.REQUEST, updateSymptom)
       ])
   }
   
