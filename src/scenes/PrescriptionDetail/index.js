@@ -11,7 +11,7 @@ import { getDetail, addMedicine, addDetail, getListSymptoms, update } from './ac
 import { getList as getListMedical } from "../Medical/action";
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faSave } from '@fortawesome/free-solid-svg-icons'
 class index extends Component {
     constructor(props) {
         super(props);
@@ -21,7 +21,6 @@ class index extends Component {
             initialValue: {
             }
         }
-
     }
 
     componentDidMount=()=>{
@@ -61,13 +60,31 @@ class index extends Component {
     }
 
     handleEdit = (values) =>{
-        // const { prescriptionDetail : { data : { id } } } = this.props
         let id = this.props?.prescriptionDetail?.data?.id || 0
+        console.log(id);
         let data={
-            symptoms: (values?.symptoms || []).join(';') || ''
+            symptoms: (values?.symptoms || []).join(';') || '',
+            diseases: (values?.diseases || []).join(';') || ''
         }
+        console.log(data);
         this.props.update(id, data)
         this.setState({showForm:false})
+    }
+
+    confirmPrescription = () =>{
+        let id = this.props?.prescriptionDetail?.data?.id || 0
+        let data = {
+            status: 2
+        }
+        this.props.update(id,data)
+    }
+
+    cancelPrescription = () =>{
+        let id = this.props?.prescriptionDetail?.data?.id || 0
+        let data = {
+            status: 3
+        }
+        this.props.update(id,data)
     }
 
     handleCloseModal = (value)=>
@@ -79,7 +96,8 @@ class index extends Component {
         const { initialValue, phone, showForm } = this.state
         const initialValueFormAddCustomer = {
             phone: phone
-        }
+        }   
+        
         return (
             <div>
                 <Layout>
@@ -93,7 +111,7 @@ class index extends Component {
                                     handleEdit={this.handleEdit}
                                     prescriptionDetail={prescriptionDetail.data}
                                     loading={prescriptionDetail.loading}
-                                    symtoms={prescriptionDetail.symtoms}
+                                    diseases_symtoms={prescriptionDetail.symtoms}
                                 />
                                 {/* <FormAdd
                                 destroyOnClose={true}
@@ -104,6 +122,8 @@ class index extends Component {
                                 onSubmit={this.handleAddDetail}
                                 handleShowForm={this.handleShowForm}
                                 /> */}
+                                <a onClick={()=>this.confirmPrescription()} className='btn btn-primary'> Confirm </a>
+                                <a onClick={()=>this.cancelPrescription()} className='btn btn-secondary'> Cancel </a>
                             </Spin>
                         </div>
                         <div className="col-8">

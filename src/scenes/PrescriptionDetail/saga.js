@@ -88,9 +88,7 @@ function* getListSymptomSaga(action) {
 function* updateSymptom(action) {
     try {
         const { id, data } = action
-        console.log(action);
         const response = yield call(api.update, id, data)
-        console.log(response);
         if(response.status){
                 yield all([
                     put({type: TYPE.UPDATE.SUCCESS, ...response}),
