@@ -6,7 +6,7 @@ import {getLabelOption, options_status_prescription} from '../../../share/option
 import EditValue from "./EditValue";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
-const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, symtoms }) => {
+const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, diseases_symtoms }) => {
     const [isUpdate, setIsUpdate] = useState('')
     const handleCancelEdit = () =>{
         setIsUpdate('')
@@ -15,14 +15,16 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, symtoms }
     useEffect(() => {
         setIsUpdate('')
     }, [prescriptionDetail])
-    let options = symtoms.map(d=>{
+    let optionsSymptoms = diseases_symtoms.map(d=>{
         return {label: d.symptom_name , value: d.symptom_name}
     })
-    // console.log(getLabelOption(prescriptionDetail?.status || 0), options_status_prescription);
+    let optionsDiseases = diseases_symtoms.map(d=>{
+        return {label: d.code , value: d.code}
+    })
     return (
         <Spin spinning={loading} >
             <div>
-            <Descriptions column={2} title={<div className="font-weight-bold h5 text-left">#{prescriptionDetail?.code} - 
+            <Descriptions column={2} title={<div className="font-weight-bold h5 text-left">#{prescriptionDetail?.code} -     
             {getLabelOption((prescriptionDetail?.status || 0), options_status_prescription)}
             </div>} >
                 <Descriptions.Item label="Customer">{prescriptionDetail?.customer?.name}</Descriptions.Item>
@@ -34,17 +36,30 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, symtoms }
                     {
                         isUpdate == 'editSymptoms' ? 
                         <EditValue 
-                            options={options || []}
+                            options={optionsSymptoms || []}
                             onSubmit={handleEdit}
                             handleCancel={handleCancelEdit}
+                            name = "Symptoms"
+                            placeholder ="Symptoms"
                         />
                         : 
                         <span> {prescriptionDetail?.symptoms} <a className="text-info"> <FontAwesomeIcon onClick={()=>setIsUpdate('editSymptoms')} icon={faEdit} />  </a> </span>
                     }
-                   
-
                 </Descriptions.Item>
-
+                <Descriptions.Item span={2} label="Diseases">   
+                    {
+                        isUpdate == 'editDiseases' ? 
+                        <EditValue 
+                            options={optionsDiseases || []}
+                            onSubmit={handleEdit}
+                            handleCancel={handleCancelEdit}
+                            name = "Diseases"
+                            placeholder = "Diseases"
+                        />
+                        : 
+                        <span> {prescriptionDetail?.diseases} <a className="text-info"> <FontAwesomeIcon onClick={()=>setIsUpdate('editDiseases')} icon={faEdit} />  </a> </span>
+                    }
+                </Descriptions.Item>
             </Descriptions>
             </div>
         </Spin>

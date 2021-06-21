@@ -55,7 +55,6 @@ class index extends Component {
                     <div className='container-fluid mb-3 text-left py-2'>
                         <span className='h5 font-weight-bold '>Customers</span>
                     </div>
-
                         <FormFilter
                             initialValues={initialValueFormAddCustomer}
                             onSubmit={this.handleSubmitFilter}

@@ -6,18 +6,18 @@ import { faSave, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons'
 import RenderSelect from '../../../share/components/RenderSelect'
 import { Space } from 'antd'
 let ContactForm = props => {
-    const { handleSubmit, options, handleCancel } = props
+    const { handleSubmit, options, handleCancel, name, placeholder } = props
     return (
         <form onSubmit={handleSubmit}>
                     <Space>
                         <Field
-                        style={{width: '270px'}}
-                            name="symptoms"
+                        style={{width: '200px'}}
+                            name={name}
                             component={RenderSelect}
                             options={options || []}
                             mode="multiple"
                             maxTagCount= 'responsive'
-                            placeholder='Symptoms'
+                            placeholder={placeholder}
                             size="small"
                             showTime={false}
                         />

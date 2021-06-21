@@ -37,9 +37,7 @@ function reducer(state = initialState, action) {
             return {
                 ...state,
             }
-            
         case type.UPDATE.REQUEST:
-            console.log(action);
             return {
                 ...state,
                 loading: true
