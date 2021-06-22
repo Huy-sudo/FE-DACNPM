@@ -46,22 +46,8 @@ class index extends Component {
         this.setState({showForm:false})
     }
 
-    handleAddDetail= ({value}) =>
-    {
-        // const { prescriptionDetail } = this.props
-        // let data={
-        //     ...value,
-        //     uses: parseInt(uses),
-        //     PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
-        //     prescription_detail_id:this.props.match.params?.id || 0
-        // }
-        // this.props.addMedicine(data)
-        // this.setState({showForm:false})
-    }
-
     handleEdit = (values) =>{
         let id = this.props?.prescriptionDetail?.data?.id || 0
-        console.log(id);
         let data={
             symptoms: (values?.symptoms || []).join(';') || '',
             diseases: (values?.diseases || []).join(';') || ''
@@ -113,15 +99,6 @@ class index extends Component {
                                     loading={prescriptionDetail.loading}
                                     diseases_symtoms={prescriptionDetail.symtoms}
                                 />
-                                {/* <FormAdd
-                                destroyOnClose={true}
-                                keyboard={true}
-                                closable
-                                maskClosable={true}
-                                onCancel={()=>this.handleShowForm(false)}
-                                onSubmit={this.handleAddDetail}
-                                handleShowForm={this.handleShowForm}
-                                /> */}
                                 <a onClick={()=>this.confirmPrescription()} className='btn btn-primary'> Confirm </a>
                                 <a onClick={()=>this.cancelPrescription()} className='btn btn-secondary'> Cancel </a>
                             </Spin>
@@ -129,9 +106,9 @@ class index extends Component {
                         <div className="col-8">
                         <DataTable
                         handleShowForm={this.handleShowForm}
-                       
                         dataSource={prescriptionDetail?.data?.prescription_detail?.medicine}
                         loading={prescriptionDetail.loading}
+                        prescriptionDetail={prescriptionDetail.data}
                         />
                         <Modal 
                         title="Add Medicine" 

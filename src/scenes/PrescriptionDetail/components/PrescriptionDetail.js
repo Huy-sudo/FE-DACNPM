@@ -15,12 +15,15 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, diseases_
     useEffect(() => {
         setIsUpdate('')
     }, [prescriptionDetail])
+
     let optionsSymptoms = diseases_symtoms.map(d=>{
         return {label: d.symptom_name , value: d.symptom_name}
     })
+
     let optionsDiseases = diseases_symtoms.map(d=>{
         return {label: d.code , value: d.code}
     })
+
     return (
         <Spin spinning={loading} >
             <div>
@@ -28,12 +31,15 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, diseases_
             {getLabelOption((prescriptionDetail?.status || 0), options_status_prescription)}
             </div>} >
                 <Descriptions.Item label="Customer">{prescriptionDetail?.customer?.name}</Descriptions.Item>
-                <Descriptions.Item label="Phone">0{prescriptionDetail?.customer?.phone}</Descriptions.Item>
+                <Descriptions.Item label="Phone">{prescriptionDetail?.customer?.phone}</Descriptions.Item>
                 <Descriptions.Item label="Analysis Price">{prescriptionDetail?.prescription_detail?.bill?.analysis_price}</Descriptions.Item>
                 <Descriptions.Item label="Total Price">{prescriptionDetail?.prescription_detail?.bill?.analysis_price + prescriptionDetail?.prescription_detail?.price_medicines}</Descriptions.Item>
                 <Descriptions.Item span={2} label="Username">{prescriptionDetail?.user?.name}</Descriptions.Item>
                 <Descriptions.Item span={2} label="Symptoms">   
                     {
+                        prescriptionDetail?.status == 2?
+                        <span> {prescriptionDetail?.symptoms} </span>
+                        :
                         isUpdate == 'editSymptoms' ? 
                         <EditValue 
                             options={optionsSymptoms || []}
@@ -48,6 +54,9 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, diseases_
                 </Descriptions.Item>
                 <Descriptions.Item span={2} label="Diseases">   
                     {
+                        prescriptionDetail?.status == 2?
+                        <span> {prescriptionDetail?.diseases}</span>
+                        :
                         isUpdate == 'editDiseases' ? 
                         <EditValue 
                             options={optionsDiseases || []}

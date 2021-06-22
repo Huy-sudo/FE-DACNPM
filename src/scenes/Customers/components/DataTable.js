@@ -89,13 +89,11 @@ const DataTable = ({ dataSource, loading }) => {
                </span>
             </Tooltip>
           </Link>
-         
             <Tooltip placement="top" title="Info">
               <Link className="px-3 btn btn-primary btn-sm" to={`/customer/${record.id}/detail`}>
                 <FontAwesomeIcon icon={faInfo} /> 
               </Link>
             </Tooltip>
-
         </Space>
       ),
     },]
