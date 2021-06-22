@@ -37,7 +37,7 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, diseases_
                 <Descriptions.Item span={2} label="Username">{prescriptionDetail?.user?.name}</Descriptions.Item>
                 <Descriptions.Item span={2} label="Symptoms">   
                     {
-                        prescriptionDetail?.status == 2?
+                        prescriptionDetail?.status != 1?
                         <span> {prescriptionDetail?.symptoms} </span>
                         :
                         isUpdate == 'editSymptoms' ? 
@@ -54,7 +54,7 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, diseases_
                 </Descriptions.Item>
                 <Descriptions.Item span={2} label="Diseases">   
                     {
-                        prescriptionDetail?.status == 2?
+                        prescriptionDetail?.status != 1?
                         <span> {prescriptionDetail?.diseases}</span>
                         :
                         isUpdate == 'editDiseases' ? 

@@ -47,7 +47,6 @@ let ModalAddCustomer = props => {
                     <button className='btn btn-primary mr-3' type="submit"> <FontAwesomeIcon icon={faSave} /> Save</button>
                     <a onClick={()=>handleShowForm(false)} className='btn btn-secondary'> <FontAwesomeIcon icon={faTimes} /> Cancel</a>
                     </div>
-
             </div>
         </form>
     )

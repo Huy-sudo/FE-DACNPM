@@ -52,7 +52,7 @@ const DataTable = ({ dataSource, loading, handleShowForm, prescriptionDetail }) 
       title={() =>
         <div className="d-flex justify-content-between align-item-center">
           <span className="h5 font-weight-bold">Medicines</span>
-          {prescriptionDetail?.status == 2 ?
+          {prescriptionDetail?.status != 1 ?
             <span> {prescriptionDetail?.diseases}</span>
             :
             <button onClick={() => handleShowForm(true)} className="btn-primary btn px-2"> <FontAwesomeIcon icon={faPlus} />Add</button>
