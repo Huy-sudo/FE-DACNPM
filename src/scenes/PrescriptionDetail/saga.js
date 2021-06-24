@@ -10,6 +10,8 @@ import {
   } from './action'  
 import * as api from '../../apis/Prescriptions'
 import * as apiSymtoms from '../../apis/symptoms'
+import * as apiUses from '../../apis/Uses'
+
   
 function* getDetailSaga(action) {
       try {
@@ -32,7 +34,6 @@ function* getDetailSaga(action) {
   function* addMedicine(action) {
     try {
         const { data: {prescription_detail_id, ...data} } = action
-        console.log({prescription_detail_id});
         const response = yield call(api.addMedicine, data)
         if(response.status){
                 yield all([
@@ -67,6 +68,7 @@ function* addDetail(action) {
         ])
     }
 }
+
 function* getListSymptomSaga(action) {
     try {
         const { params } = action
@@ -81,6 +83,24 @@ function* getListSymptomSaga(action) {
     } catch (error) {
         yield all([
             put({type: TYPE.SYMPTOMS.ERROR, error})
+        ])
+    }
+}
+
+function* getListUseSaga(action) {
+    try {
+        const { params } = action
+        const response = yield call(apiUses.getList, params)
+        if(response.status){
+                yield all([
+                    put({type: TYPE.USES.SUCCESS, ...response}),
+                ])
+        }else{
+          yield put({type: TYPE.USES.ERROR, error: response})
+        }
+    } catch (error) {
+        yield all([
+            put({type: TYPE.USES.ERROR, error})
         ])
     }
 }
@@ -110,7 +130,8 @@ function* updateSymptom(action) {
           takeLatest(TYPE.ADDMEDICINE.REQUEST, addMedicine),
           takeLatest(TYPE.ADDDETAIL.REQUEST, addDetail),
           takeLatest(TYPE.SYMPTOMS.REQUEST, getListSymptomSaga),
-          takeLatest(TYPE.UPDATE.REQUEST, updateSymptom)
+          takeLatest(TYPE.UPDATE.REQUEST, updateSymptom),
+          takeLatest(TYPE.USES.REQUEST, getListUseSaga)
       ])
   }
   

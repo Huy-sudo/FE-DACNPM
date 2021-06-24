@@ -7,7 +7,7 @@ import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddCustomer'
 import FormAdd from './components/InputAddSymptomAndDisease'
 import PrescriptionDetail from './components/PrescriptionDetail'
-import { getDetail, addMedicine, addDetail, getListSymptoms, update } from './action'
+import { getDetail, addMedicine, addDetail, getListSymptoms, update, getListUses } from './action'
 import { getList as getListMedical } from "../Medical/action";
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -27,21 +27,22 @@ class index extends Component {
         this.props.getDetail(this.props.match.params?.id)
         this.props.getListSymptoms()
         this.props.getListMedical({limit: 999})
+        this.props.getListUses()
     }
 
     handleShowForm = (value) => {
         this.setState({ showForm: value || false })
     }
 
-    handleAddMedicine= ({uses, ...value}) =>
+    handleAddMedicine= (value) =>
     {
         const { prescriptionDetail } = this.props
         let data={
             ...value,
-            uses: parseInt(uses),
             PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
             prescription_detail_id:this.props.match.params?.id || 0
         }
+        console.log(data);
         this.props.addMedicine(data)
         this.setState({showForm:false})
     }
@@ -49,10 +50,9 @@ class index extends Component {
     handleEdit = (values) =>{
         let id = this.props?.prescriptionDetail?.data?.id || 0
         let data={
-            symptoms: (values?.symptoms || []).join(';') || '',
-            diseases: (values?.diseases || []).join(';') || ''
+            symptoms: (values?.Symptoms || []).join(';') || '',
+            diseases: (values?.Diseases || []).join(';') || ''
         }
-        console.log(data);
         this.props.update(id, data)
         this.setState({showForm:false})
     }
@@ -78,7 +78,7 @@ class index extends Component {
         this.setState({showForm: false})
     }
     render() {
-        const { prescriptionDetail, symtoms, medical } = this.props
+        const { prescriptionDetail,medical } = this.props
         const { initialValue, phone, showForm } = this.state
         const initialValueFormAddCustomer = {
             phone: phone
@@ -97,7 +97,7 @@ class index extends Component {
                                     handleEdit={this.handleEdit}
                                     prescriptionDetail={prescriptionDetail.data}
                                     loading={prescriptionDetail.loading}
-                                    diseases_symtoms={prescriptionDetail.symtoms}
+                                    symtoms={prescriptionDetail.symtoms}
                                 />
                                 <a onClick={()=>this.confirmPrescription()} className='btn btn-primary'> Confirm </a>
                                 <a onClick={()=>this.cancelPrescription()} className='btn btn-secondary'> Cancel </a>
@@ -126,6 +126,7 @@ class index extends Component {
                                 initialValues={{amount:1}}
                                 onSubmit={this.handleAddMedicine}
                                 handleShowForm={this.handleShowForm}
+                                uses={prescriptionDetail.uses}
                             />
                         </Modal> 
                         </div>
@@ -139,7 +140,8 @@ class index extends Component {
 const mapStateToProps = (state) => ({
     prescriptionDetail: state.prescriptionDetail,
     symtoms: state.symtoms,
-    medical: state.medical
+    medical: state.medical,
+    uses: state.uses
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -161,7 +163,9 @@ const mapDispatchToProps = dispatch => ({
     getListMedical: (params) => {
         dispatch(getListMedical(params))
     },
-    
+    getListUses: (params) => {
+        dispatch(getListUses(params))
+    },
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)

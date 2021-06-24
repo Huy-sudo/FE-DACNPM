@@ -3,7 +3,8 @@ import { action_type as type } from './action'
 const initialState = {
     loading: false,
     data: [],
-    symtoms: []
+    symtoms: [],
+    uses: [],
 }
 
 function reducer(state = initialState, action) {
@@ -16,14 +17,14 @@ function reducer(state = initialState, action) {
         case type.PRESCRIPTIONDETAIL.SUCCESS:
             return {
                 ...state,
-                    data: action.data,
-                    loading: false,
+                data: action.data,
+                loading: false,
             }
         case type.PRESCRIPTIONDETAIL.ERROR:
             return {
                 ...state,
-                    loading: false,
-            }  
+                loading: false,
+            }
         case type.SYMPTOMS.REQUEST:
             return {
                 ...state,
@@ -31,9 +32,22 @@ function reducer(state = initialState, action) {
         case type.SYMPTOMS.SUCCESS:
             return {
                 ...state,
-                    symtoms: action.data,
+                uses: action.data,
             }
         case type.SYMPTOMS.ERROR:
+            return {
+                ...state,
+            }
+        case type.USES.REQUEST:
+            return {
+                ...state,
+            }
+        case type.USES.SUCCESS:
+            return {
+                ...state,
+                uses: action.data,
+            }
+        case type.USES.ERROR:
             return {
                 ...state,
             }

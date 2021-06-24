@@ -3,15 +3,21 @@ import { Field, reduxForm } from 'redux-form'
 import RenderDateTimePicker from '../../../share/components/RenderDateTimePicker'
 import RenderInputText from '../../../share/components/RenderInputText'
 import RenderNumberAnt from '../../../share/components/RenderNumberAnt'
-import {option_uses} from '../../../share/options'
+// import {option_uses} from '../../../share/options'
 import RenderSelect from '../../../share/components/RenderSelect'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave, faTimes } from '@fortawesome/free-solid-svg-icons'
 let ModalAddCustomer = props => {
-    const { handleSubmit, handleShowForm, medical = [] } = props
+    const { handleSubmit, handleShowForm, medical, uses = [] } = props
+    
     let options = medical.map(d=>{
         return {label: d.name, value: d.code }
     }) || []
+
+    let options_uses = uses.map(d=>{
+        return {label: d.value, value: d.id }
+    })
+
     return (
         <form onSubmit={handleSubmit}>
             <div className='row bg-white m-3' >
@@ -34,13 +40,12 @@ let ModalAddCustomer = props => {
                         />
                     </div>
                     <div className='col-9 mb-3 text-left' >
-                    <label className="font-weight-bold text-muted">Amount:</label>
+                    <label className="font-weight-bold text-muted">Use:</label>
                         <Field
-                            min={1}
                             name="uses"
                             component={RenderSelect}
-                            placeholder='Uses'
-                            options={option_uses}
+                            placeholder='Use'
+                            options={options_uses}
                         />
                     </div>
                     <div className='col-12 text-center'>

@@ -8,6 +8,7 @@ const initialState = {
 function reducer(state = initialState, action) {
     switch (action.type) {
         case type.DASHBOARD.REQUEST:
+            console.log(123);
             return {
                 ...state,
                 loading: true

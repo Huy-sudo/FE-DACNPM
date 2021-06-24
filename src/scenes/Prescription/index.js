@@ -18,8 +18,8 @@ class index extends Component {
     componentDidMount(){
         this.handleSubmitFilter(this.state.initial_filter_values)
     }
+
     handleSubmitFilter = ({date,...values}) => {
-        console.log(date);
         let params = {
             ...values,
             data_customer:1

@@ -8,7 +8,7 @@ import {
 import {
       action_type as TYPE
   } from './action'  
-import * as api from '../../apis/Prescriptions'
+import * as api from '../../apis/Variables'
   
 function* getListSaga(action) {
       try {
@@ -30,7 +30,7 @@ function* getListSaga(action) {
   
   function* watcher() {
       yield all([
-          takeLatest(TYPE.PRESCRIPTION.REQUEST, getListSaga),
+          takeLatest(TYPE.DASHBOARD.REQUEST, getListSaga),
       ])
   }
   

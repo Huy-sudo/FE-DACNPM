@@ -38,6 +38,16 @@ const DataTable = ({ dataSource, loading, handleShowForm, prescriptionDetail }) 
         </div>
     },
     {
+      title: 'Use',
+      dataIndex: 'use',
+      key: 'use',
+      className: 'text-left', 
+      render: (value, record) =>
+        <div>
+          <span> {record?.uses} </span>
+        </div>
+    },
+    {
       title: 'Price',
       className: 'text-left',
       render: (value, record) =>

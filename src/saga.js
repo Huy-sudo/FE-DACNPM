@@ -6,6 +6,7 @@ import prescriptionDetailSaga from "./scenes/PrescriptionDetail/saga"
 import customerDetailSaga from "./scenes/CustomerDetail/saga"
 import medicalSaga from "./scenes/Medical/saga"
 import ListenSaga from "./scenes/Auth/saga";
+import DashboardSaga from "./scenes/Dashboard/saga";
 const Saga = function* (){
     yield all([
       loginSaga(),
@@ -14,7 +15,8 @@ const Saga = function* (){
       prescriptionDetailSaga(),
       customerDetailSaga(),
       medicalSaga(),
-      ListenSaga()
+      ListenSaga(),
+      DashboardSaga()
     ])
   }
   

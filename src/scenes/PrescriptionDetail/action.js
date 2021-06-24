@@ -19,6 +19,11 @@ export const action_type = {
         SUCCESS: "SYMPTOMS.GET_LIST.SUCCESS",
         ERROR: "SYMPTOMS.GET_LIST.ERROR"
     },
+    USES: {
+        REQUEST: "USES.GET_LIST.REQUEST",
+        SUCCESS: "USES.GET_LIST.SUCCESS",
+        ERROR: "USES.GET_LIST.ERROR"
+    },
     UPDATE: {
         REQUEST: "PRESCRIPTION.UPDATE.REQUEST",
         SUCCESS: "PRESCRIPTION.UPDATE.SUCCESS",
@@ -53,6 +58,13 @@ export function addDetail (data)
 export function getListSymptoms (params){
     return {
         type: action_type.SYMPTOMS.REQUEST,
+        params,
+    }
+}
+
+export function getListUses (params){
+    return {
+        type: action_type.USES.REQUEST,
         params,
     }
 }
