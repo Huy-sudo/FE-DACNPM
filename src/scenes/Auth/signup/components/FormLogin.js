@@ -17,7 +17,7 @@ let ContactForm = props => {
                         <Field
                             name="email"
                             component={RenderInputText}
-                            suffix="@gmail"
+                            suffix="@gmail.com"
                             placeholder='EMAIL'
                         />
                     </div>
@@ -29,10 +29,16 @@ let ContactForm = props => {
                             component={RenderInputPassword}
                         />
                     </div>
+                    <div className='col-12 mb-3 text-left'>
+                        <label className='font-weight-bold '>Name</label>
+                        <Field
+                            name="name"
+                            placeholder='NAME'
+                            component={RenderInputText}
+                        />
+                    </div>
                     <button className='btn btn-primary' type="submit">Submit</button>
-                    <Link className="btn btn-danger btn-sm" to={`/signup`}> Signup
-                    </Link>                
-              </div>
+                </div>
             </div>
             <div className='col-3'>
             </div>

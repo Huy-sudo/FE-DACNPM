@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Spin, Alert, Modal } from 'antd';
 import { connect } from 'react-redux'
-import FormFilter from '../PrescriptionDetail/components/FormFilter'
 import Layout from '../../layouts'
 import DataTable from './components/DataTable'
-import FormAddCustomer from './components/FormAddCustomer'
-import FormAdd from './components/InputAddSymptomAndDisease'
+import FormAddCustomer from './components/FormAddMedicine'
 import PrescriptionDetail from './components/PrescriptionDetail'
 import { getDetail, addMedicine, addDetail, getListSymptoms, update, getListUses } from './action'
 import { getList as getListMedical } from "../Medical/action";
@@ -42,7 +40,6 @@ class index extends Component {
             PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
             prescription_detail_id:this.props.match.params?.id || 0
         }
-        console.log(data);
         this.props.addMedicine(data)
         this.setState({showForm:false})
     }
@@ -54,7 +51,6 @@ class index extends Component {
             diseases: (values?.Diseases || []).join(';') || ''
         }
         this.props.update(id, data)
-        this.setState({showForm:false})
     }
 
     confirmPrescription = () =>{
@@ -77,6 +73,7 @@ class index extends Component {
     {
         this.setState({showForm: false})
     }
+    
     render() {
         const { prescriptionDetail,medical } = this.props
         const { initialValue, phone, showForm } = this.state

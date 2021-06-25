@@ -34,4 +34,8 @@ export default [
         path: '/medical',
         component: Medical
     },
+    {
+        path: '/inventory',
+        component: Medical
+    },
 ]

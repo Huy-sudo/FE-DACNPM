@@ -11,11 +11,11 @@ let ContactForm = props => {
                     <Space>
                         <Field
                             style={{width: '300px'}}
-                            name="value"
+                            name="cost_per_med"
                             component={RenderNumberAnt}
                             mode="multiple"
                             maxTagCount= 'responsive'
-                            placeholder="Value"
+                            placeholder="Price"
                             size="big"
                             showTime={false}
                             min={0}

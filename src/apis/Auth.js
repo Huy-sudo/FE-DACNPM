@@ -10,11 +10,11 @@ export const login =(data)=> {
     })
 }
 
-export const getDetail =(id, params)=> {
+export const signup =(data)=> {
     return axios({
-        method: 'GET',
-        params,
-        url: `${prefix}/${id}`
+        method: 'POST',
+        data,
+        url: `${prefix}/signup`
     })
 }
 

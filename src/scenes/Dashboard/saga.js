@@ -27,10 +27,31 @@ function* getListSaga(action) {
           ])
       }
   }
+
+  function* update(action) {
+    try {
+        const { id, data } = action
+        const response = yield call(api.update, id, data)
+        if(response.status){
+                yield all([
+                    put({type: TYPE.UPDATE.SUCCESS, ...response}),
+                    put({type: TYPE.DASHBOARD.REQUEST}),
+                ])
+        }else{
+          yield put({type: TYPE.UPDATE.ERROR, error: response})
+        }
+    } catch (error) {
+        yield all([
+            put({type: TYPE.UPDATE.ERROR, error})
+        ])
+    }
+}
+  
   
   function* watcher() {
       yield all([
           takeLatest(TYPE.DASHBOARD.REQUEST, getListSaga),
+          takeLatest(TYPE.UPDATE.REQUEST, update)
       ])
   }
   

@@ -17,13 +17,13 @@ export const getDetail =(id)=> {
     })
 }
 
-// export const addMedicine =(data)=> {
-//     return axios({
-//         method: 'POST',
-//         data,
-//         url: `/prescription-medicine`
-//     })
-// }
+export const addMedicine =(data)=> {
+    return axios({
+        method: 'POST',
+        data,
+        url: `/inventory`
+    })
+}
 
 // export const getDetailByCode =(booking_code)=> {
 //     return axios({
@@ -35,13 +35,13 @@ export const getDetail =(id)=> {
 //     })
 // }
 
-// export const update =(id, data)=> {
-//     return axios({
-//         method: 'PUT',
-//         data,
-//         url: `${prefix}/${id}`
-//     })
-// }
+export const update =(id, data)=> {
+    return axios({
+        method: 'PUT',
+        data,
+        url: `${prefix}/${id}`
+    })
+}
 
 // export const destroy =(id)=> {
 //     return axios({

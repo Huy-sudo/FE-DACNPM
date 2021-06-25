@@ -8,7 +8,6 @@ const initialState = {
 function reducer(state = initialState, action) {
     switch (action.type) {
         case type.DASHBOARD.REQUEST:
-            console.log(123);
             return {
                 ...state,
                 loading: true
@@ -16,14 +15,25 @@ function reducer(state = initialState, action) {
         case type.DASHBOARD.SUCCESS:
             return {
                 ...state,
-                    data: action.data,
-                    loading: false,
+                data: action.data,
+                loading: false,
             }
         case type.DASHBOARD.ERROR:
             return {
                 ...state,
-                    loading: false,
-            }    
+                loading: false,
+            }
+        case type.UPDATE.REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case type.UPDATE.SUCCESS:
+        case type.UPDATE.ERROR:
+            return {
+                ...state,
+                loading: false
+            }
         default:
             return state
     }
