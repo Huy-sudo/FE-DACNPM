@@ -16,7 +16,6 @@ class index extends Component {
     }
     render() {
         const {data} = this.props
-        console.log(this.props);
         return (
             <Layout>
                 <Spin spinning={data.loading} >

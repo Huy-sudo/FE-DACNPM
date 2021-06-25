@@ -15,14 +15,25 @@ function reducer(state = initialState, action) {
         case type.MEDICAL.SUCCESS:
             return {
                 ...state,
-                    data: action.data,
-                    loading: false,
+                data: action.data,
+                loading: false,
             }
         case type.MEDICAL.ERROR:
             return {
                 ...state,
-                    loading: false,
-            }    
+                loading: false,
+            }
+        case type.UPDATE.REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case type.UPDATE.SUCCESS:
+        case type.UPDATE.ERROR:
+            return {
+                ...state,
+                loading: false
+            }
         default:
             return state
     }

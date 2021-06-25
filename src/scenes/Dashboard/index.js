@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Spin } from 'antd';
 import Layout from '../../layouts'
-import { getList } from './action'
+import { getList, update } from './action'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 import DataTable from './components/DataTable';
+import EditValue from './components/EditValue';
+
 class index extends Component {
     constructor(props) {
         super(props);
@@ -20,9 +22,9 @@ class index extends Component {
 
     // }
 
-    // componentDidMount() {
-
-    // }
+    componentDidMount() {
+        this.props.getList()
+    }
 
     // componentWillReceiveProps(nextProps) {
 
@@ -44,20 +46,16 @@ class index extends Component {
 
     // }
 
-    handleEdit = (values) => {
-        // let id = this.props?.prescriptionDetail?.data?.id || 0
-        // console.log(values);
-        // let data={
-        //     symptoms: (values?.Symptoms || []).join(';') || '',
-        //     diseases: (values?.Diseases || []).join(';') || ''
-        // }
-        // this.props.update(id, data)
-        // this.setState({showForm:false})
+    handleEdit = (values) => { 
+        let data={
+            value: values.value || 0
+        }
+        console.log(values.id);
+        this.props.update(id,data)
     }
 
     render() {
-        const { variables } = this.props
-        const {initial_filter_values } = this.state
+        const { dashboard } = this.props
         return (
             <Layout>
                 <Spin spinning={false} style={{ backgroundColor: '#fafafa' }}>
@@ -65,8 +63,11 @@ class index extends Component {
                         <span className='h5 font-weight-bold '>Dashboard</span>
                     </div>
                     <DataTable
-                        dataSource={variables?.data || []}
-                        loading={variables?.loading}
+                        dataSource={dashboard?.data || []}
+                        loading={dashboard?.loading}
+                        dashboard={dashboard}
+                        handleEdit={this.handleEdit}
+
                     />
                 </Spin>
             </Layout>
@@ -76,12 +77,15 @@ class index extends Component {
 
 const mapStateToProps = (state) => ({
     user: state.login.user,
-    variables: state.variables
+    dashboard: state.dashboard
 })
 
 const mapDispatchToProps = dispatch => ({
     getList: (params) => {
         dispatch(getList(params))
+    },
+    update: (id, data) => {
+        dispatch(update(id, data))
     },
 })
 
