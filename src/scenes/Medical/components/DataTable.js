@@ -4,12 +4,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons'
 import EditValue from "./EditValue";
 
-const DataTable = ({ dataSource, loading, medical, handleEdit }) => {
+const DataTable = ({ dataSource, loading, medical, update }) => {
   const [isUpdate, setIsUpdate] = useState(0)
 
   const handleCancelEdit = () => {
     setIsUpdate(0)
   }
+
+  const handleEdit = (values) => {
+    let data = {
+        values,
+        id: isUpdate
+    }
+    update(data)
+}
+
 
   useEffect(() => {
     setIsUpdate(0)

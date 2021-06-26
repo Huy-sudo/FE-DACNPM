@@ -3,8 +3,13 @@ import { Table, Spin } from 'antd';
 import { Field, reduxForm } from 'redux-form'
 import RenderInputText from '../../../share/components/RenderInputText'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-const DataTable = ({ dataSource, loading, handleShowForm, prescriptionDetail }) => {
+import { faPlus, faExclamation } from '@fortawesome/free-solid-svg-icons'
+const DataTable = ({ dataSource, loading, handleShowForm, prescriptionDetail, deleteMedicine }) => {
+
+  const onDelete = (values) => {
+    deleteMedicine(values)
+}
+
   const columns = [
     {
       title: '#',
@@ -55,6 +60,16 @@ const DataTable = ({ dataSource, loading, handleShowForm, prescriptionDetail }) 
           <span> {(record?.amount || 0) * (record?.medicine?.cost_per_med || 1)} </span>
         </div>
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <button className="btn btn-sm btn-danger" onClick={() => onDelete(record?.medicine?.id)}>
+          <FontAwesomeIcon icon={faExclamation} />
+          DELETE
+        </button>
+      )
+    }
   ]
   return (
     <Table

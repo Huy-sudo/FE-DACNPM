@@ -3,6 +3,7 @@ import {
     call, 
     put, 
     all,
+    delay,
     select
   } from 'redux-saga/effects'
 import {
@@ -17,10 +18,11 @@ function* getListSaga(action) {
           const { params } = action
           let data = params
           const response = yield call(api.signup, data)
-          if(response.status){
+          if(response){
                   yield all([
-                      put({type: TYPE.SIGNUP.SUCCESS, ...response}),
+                      put({type: TYPE.SIGNUP.SUCCESS, ...response.message}),
                   ])
+                  yield delay(1000)
                   yield put(push('/login'));
           }else{
             yield put({type: TYPE.SIGNUP.ERROR, error: response})

@@ -17,7 +17,7 @@ export const getDetail =(id)=> {
     })
 }
 
-export const addMedicine =(data)=> {
+export const addMedicinePD =(data)=> {
     return axios({
         method: 'POST',
         data,

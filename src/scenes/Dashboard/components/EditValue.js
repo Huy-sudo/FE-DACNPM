@@ -5,7 +5,7 @@ import { faSave, faSearch, faTimes } from '@fortawesome/free-solid-svg-icons'
 import RenderNumberAnt from '../../../share/components/RenderNumberAnt'
 import { Space } from 'antd'
 let ContactForm = props => {
-    const { handleSubmit, handleCancel} = props
+    const { handleSubmit, handleCancel } = props
     return (
         <form onSubmit={handleSubmit}>
                     <Space>

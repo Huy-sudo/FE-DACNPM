@@ -4,10 +4,10 @@ export const action_type = {
         SUCCESS: "PRESCRIPTIONDETAIL.SUCCESS",
         ERROR: "PRESCRIPTIONDETAIL.ERROR"
     },
-    ADDMEDICINE: {
-        REQUEST: "ADDMEDICINE.REQUEST",
-        SUCCESS: "ADDMEDICINE.SUCCESS",
-        ERROR: "ADDMEDICINE.ERROR"
+    ADDMEDICINEPD: {
+        REQUEST: "ADDMEDICINEPD.REQUEST",
+        SUCCESS: "ADDMEDICINEPD.SUCCESS",
+        ERROR: "ADDMEDICINEPD.ERROR"
     },
     ADDDETAIL: {
         REQUEST: "ADDDETAIL.REQUEST",
@@ -39,10 +39,10 @@ export function getDetail (id)
     }
 }
 
-export function addMedicine (data)
+export function addMedicinePD (data)
 {
     return {
-        type: action_type.ADDMEDICINE.REQUEST,
+        type: action_type.ADDMEDICINEPD.REQUEST,
         data,
     }
 }

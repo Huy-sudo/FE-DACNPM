@@ -5,7 +5,7 @@ import Layout from '../../layouts'
 import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddMedicine'
 import PrescriptionDetail from './components/PrescriptionDetail'
-import { getDetail, addMedicine, addDetail, getListSymptoms, update, getListUses } from './action'
+import { getDetail, addMedicinePD, addDetail, getListSymptoms, update, getListUses } from './action'
 import { getList as getListMedical } from "../Medical/action";
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,6 +22,7 @@ class index extends Component {
     }
 
     componentDidMount=()=>{
+        const { prescriptionDetail } = this.props
         this.props.getDetail(this.props.match.params?.id)
         this.props.getListSymptoms()
         this.props.getListMedical({limit: 999})
@@ -40,7 +41,7 @@ class index extends Component {
             PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
             prescription_detail_id:this.props.match.params?.id || 0
         }
-        this.props.addMedicine(data)
+        this.props.addMedicinePD(data)
         this.setState({showForm:false})
     }
 
@@ -52,6 +53,11 @@ class index extends Component {
         }
         this.props.update(id, data)
     }
+
+    handleDelete = (values) => { 
+        console.log(values)
+    }
+
 
     confirmPrescription = () =>{
         let id = this.props?.prescriptionDetail?.data?.id || 0
@@ -95,6 +101,7 @@ class index extends Component {
                                     prescriptionDetail={prescriptionDetail.data}
                                     loading={prescriptionDetail.loading}
                                     symtoms={prescriptionDetail.symtoms}
+                                    deleteMedicine={this.handleDelete}
                                 />
                                 <a onClick={()=>this.confirmPrescription()} className='btn btn-primary'> Confirm </a>
                                 <a onClick={()=>this.cancelPrescription()} className='btn btn-secondary'> Cancel </a>
@@ -148,8 +155,8 @@ const mapDispatchToProps = dispatch => ({
     getListSymptoms: (params) => {
         dispatch(getListSymptoms(params))
     },
-    addMedicine: (data) => {
-        dispatch(addMedicine(data))
+    addMedicinePD: (data) => {
+        dispatch(addMedicinePD(data))
     },
     addDetail: (data) => {
         dispatch(addDetail(data))

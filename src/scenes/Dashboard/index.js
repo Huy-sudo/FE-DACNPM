@@ -47,10 +47,10 @@ class index extends Component {
     // }
 
     handleEdit = (values) => { 
+        let id = values.id
         let data={
-            value: values.value || 0
+            value: values.values.value
         }
-        console.log(values.id);
         this.props.update(id,data)
     }
 
@@ -66,8 +66,7 @@ class index extends Component {
                         dataSource={dashboard?.data || []}
                         loading={dashboard?.loading}
                         dashboard={dashboard}
-                        handleEdit={this.handleEdit}
-
+                        update={this.handleEdit}
                     />
                 </Spin>
             </Layout>

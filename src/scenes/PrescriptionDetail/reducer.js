@@ -32,7 +32,7 @@ function reducer(state = initialState, action) {
         case type.SYMPTOMS.SUCCESS:
             return {
                 ...state,
-                uses: action.data,
+                symtoms: action.data,
             }
         case type.SYMPTOMS.ERROR:
             return {

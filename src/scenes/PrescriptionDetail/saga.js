@@ -31,21 +31,21 @@ function* getDetailSaga(action) {
       }
   }
 
-  function* addMedicine(action) {
+  function* addMedicinePD(action) {
     try {
         const { data: {prescription_detail_id, ...data} } = action
-        const response = yield call(api.addMedicine, data)
+        const response = yield call(api.addMedicinePD, data)
         if(response.status){
                 yield all([
-                    put({type: TYPE.ADDMEDICINE.SUCCESS, ...response}),
+                    put({type: TYPE.ADDMEDICINEPD.SUCCESS, ...response}),
                     put({type: TYPE.PRESCRIPTIONDETAIL.REQUEST, id: prescription_detail_id }),
                 ])
         }else{
-          yield put({type: TYPE.ADDMEDICINE.ERROR, error: response})
+          yield put({type: TYPE.ADDMEDICINEPD.ERROR, error: response})
         }
     } catch (error) {
         yield all([
-            put({type: TYPE.ADDMEDICINE.ERROR, error})
+            put({type: TYPE.ADDMEDICINEPD.ERROR, error})
         ])
     }
 }
@@ -127,7 +127,7 @@ function* updateSymptom(action) {
   function* watcher() {
       yield all([
           takeLatest(TYPE.PRESCRIPTIONDETAIL.REQUEST, getDetailSaga),
-          takeLatest(TYPE.ADDMEDICINE.REQUEST, addMedicine),
+          takeLatest(TYPE.ADDMEDICINEPD.REQUEST, addMedicinePD),
           takeLatest(TYPE.ADDDETAIL.REQUEST, addDetail),
           takeLatest(TYPE.SYMPTOMS.REQUEST, getListSymptomSaga),
           takeLatest(TYPE.UPDATE.REQUEST, updateSymptom),

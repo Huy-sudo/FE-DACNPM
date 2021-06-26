@@ -32,8 +32,7 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, symtoms }
             </div>} >
                 <Descriptions.Item label="Customer">{prescriptionDetail?.customer?.name}</Descriptions.Item>
                 <Descriptions.Item label="Phone">0{prescriptionDetail?.customer?.phone}</Descriptions.Item>
-                <Descriptions.Item label="Analysis Price">{prescriptionDetail?.prescription_detail?.bill?.analysis_price}</Descriptions.Item>
-                <Descriptions.Item label="Total Price">{prescriptionDetail?.prescription_detail?.bill?.analysis_price + prescriptionDetail?.prescription_detail?.price_medicines}</Descriptions.Item>
+                <Descriptions.Item label="Total Price">{prescriptionDetail?.prescription_detail?.price_medicines}</Descriptions.Item>
                 <Descriptions.Item span={2} label="Username">{prescriptionDetail?.user?.name}</Descriptions.Item>
                 <Descriptions.Item span={2} label="Symptoms">   
                     {
