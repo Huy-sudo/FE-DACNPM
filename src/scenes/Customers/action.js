@@ -9,6 +9,11 @@ export const action_type = {
         SUCCESS: "CUSTOMER.CREATE.SUCCESS",
         ERROR: "CUSTOMER.CREATE.ERROR"
     },
+    PRESCRIPTION: {
+        REQUEST: "PRESCRIPTION.CREATE.REQUEST",
+        SUCCESS: "PRESCRIPTION.CREATE.SUCCESS",
+        ERROR: "PRESCRIPTION.CREATE.ERROR"
+    },
 }
 
 export function getList (params)
@@ -23,6 +28,14 @@ export function addCustomer (params)
 {
     return {
         type: action_type.CREATE.REQUEST,
+        params,
+    }
+}
+
+export function addPrescription (params)
+{
+    return {
+        type: action_type.PRESCRIPTION.REQUEST,
         params,
     }
 }

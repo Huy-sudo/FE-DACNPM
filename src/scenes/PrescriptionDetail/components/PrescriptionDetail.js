@@ -31,8 +31,9 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, symtoms }
             {getLabelOption((prescriptionDetail?.status || 0), options_status_prescription)}
             </div>} >
                 <Descriptions.Item label="Customer">{prescriptionDetail?.customer?.name}</Descriptions.Item>
-                <Descriptions.Item label="Phone">0{prescriptionDetail?.customer?.phone}</Descriptions.Item>
-                <Descriptions.Item label="Total Price">{prescriptionDetail?.prescription_detail?.price_medicines}</Descriptions.Item>
+                <Descriptions.Item label="Phone">{prescriptionDetail?.customer?.phone}</Descriptions.Item>
+                <Descriptions.Item label="Analysis Price">{prescriptionDetail?.analysis_price}</Descriptions.Item>
+                <Descriptions.Item label="Total Price">{prescriptionDetail?.prescription_detail?.price_medicines + prescriptionDetail?.analysis_price}</Descriptions.Item>
                 <Descriptions.Item span={2} label="Username">{prescriptionDetail?.user?.name}</Descriptions.Item>
                 <Descriptions.Item span={2} label="Symptoms">   
                     {
@@ -41,6 +42,7 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, symtoms }
                             options={optionsSymptoms || []}
                             onSubmit={handleEdit}
                             handleCancel={handleCancelEdit}
+                            name='Symptoms'
                         />  
                         : 
                         <span> {prescriptionDetail?.symptoms} <a className="text-info"> <FontAwesomeIcon onClick={()=>setIsUpdate('editSymptoms')} icon={faEdit} />  </a> </span>
@@ -53,6 +55,7 @@ const PrescriptionDetail = ({ prescriptionDetail, loading, handleEdit, symtoms }
                             options={optionsDiseases || []}
                             onSubmit={handleEdit}
                             handleCancel={handleCancelEdit}
+                            name='Diseases'
                         />
                         : 
                         <span> {prescriptionDetail?.diseases} <a className="text-info"> <FontAwesomeIcon onClick={()=>setIsUpdate('editDiseases')} icon={faEdit} />  </a> </span>

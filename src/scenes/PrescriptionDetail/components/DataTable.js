@@ -64,7 +64,7 @@ const DataTable = ({ dataSource, loading, handleShowForm, prescriptionDetail, de
       title: 'Action',
       key: 'action',
       render: (text, record) => (
-        <button className="btn btn-sm btn-danger" onClick={() => onDelete(record?.medicine?.id)}>
+        <button className="btn btn-sm btn-danger" onClick={() => onDelete(record?.id)}>
           <FontAwesomeIcon icon={faExclamation} />
           DELETE
         </button>

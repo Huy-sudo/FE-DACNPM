@@ -50,6 +50,26 @@ function* getDetailSaga(action) {
     }
 }
 
+function* deleteMedicinePD(action) {
+    try {
+        const { id, idPD } = action
+        console.log(action);
+        const response = yield call(api.deleteMedicinePD, id)
+        if(response.status){
+                yield all([
+                    put({type: TYPE.DELETEMEDICINEPD.SUCCESS, ...response}),
+                    put({type: TYPE.PRESCRIPTIONDETAIL.REQUEST, id: idPD }),
+                ])
+        }else{
+          yield put({type: TYPE.DELETEMEDICINEPD.ERROR, error: response})
+        }
+    } catch (error) {
+        yield all([
+            put({type: TYPE.DELETEMEDICINEPD.ERROR, error})
+        ])
+    }
+}
+
 function* addDetail(action) {
     try {
         const { data: {prescription_detail_id, ...data} } = action
@@ -131,7 +151,8 @@ function* updateSymptom(action) {
           takeLatest(TYPE.ADDDETAIL.REQUEST, addDetail),
           takeLatest(TYPE.SYMPTOMS.REQUEST, getListSymptomSaga),
           takeLatest(TYPE.UPDATE.REQUEST, updateSymptom),
-          takeLatest(TYPE.USES.REQUEST, getListUseSaga)
+          takeLatest(TYPE.USES.REQUEST, getListUseSaga),
+          takeLatest(TYPE.DELETEMEDICINEPD.REQUEST, deleteMedicinePD)
       ])
   }
   

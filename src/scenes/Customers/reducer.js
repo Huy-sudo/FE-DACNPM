@@ -3,7 +3,7 @@ import { action_type as type } from './action'
 const initialState = {
     loading: false,
     data: [],
-    
+
 }
 
 function reducer(state = initialState, action) {
@@ -16,15 +16,31 @@ function reducer(state = initialState, action) {
         case type.CUSTOMER.SUCCESS:
             return {
                 ...state,
-                    data: action.data,
-                    loading: false,
+                data: action.data,
+                loading: false,
             }
         case type.CUSTOMER.ERROR:
             return {
                 ...state,
-                    loading: false,
-            }    
-            case type.CREATE.REQUEST:
+                loading: false,
+            }
+        case type.PRESCRIPTION.REQUEST:
+            return {
+                ...state,
+                loading: true
+            }
+        case type.PRESCRIPTION.SUCCESS:
+            return {
+                ...state,
+                data: action.data,
+                loading: false,
+            }
+        case type.PRESCRIPTION.ERROR:
+            return {
+                ...state,
+                loading: false,
+            }
+        case type.CREATE.REQUEST:
             return {
                 ...state,
                 loading: true
@@ -32,13 +48,13 @@ function reducer(state = initialState, action) {
         case type.CREATE.SUCCESS:
             return {
                 ...state,
-                    loading: false,
+                loading: false,
             }
         case type.CREATE.ERROR:
             return {
                 ...state,
-                    loading: false,
-            }    
+                loading: false,
+            }
         default:
             return state
     }

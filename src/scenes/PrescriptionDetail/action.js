@@ -9,6 +9,11 @@ export const action_type = {
         SUCCESS: "ADDMEDICINEPD.SUCCESS",
         ERROR: "ADDMEDICINEPD.ERROR"
     },
+    DELETEMEDICINEPD: {
+        REQUEST: "DELETEMEDICINEPD.REQUEST",
+        SUCCESS: "DELETEMEDICINEPD.SUCCESS",
+        ERROR: "DELETEMEDICINEPD.ERROR"
+    },
     ADDDETAIL: {
         REQUEST: "ADDDETAIL.REQUEST",
         SUCCESS: "ADDDETAIL.SUCCESS",
@@ -44,6 +49,15 @@ export function addMedicinePD (data)
     return {
         type: action_type.ADDMEDICINEPD.REQUEST,
         data,
+    }
+}
+
+export function deleteMedicinePD (id, idPD)
+{
+    return {
+        type: action_type.DELETEMEDICINEPD.REQUEST,
+        id,
+        idPD
     }
 }
 

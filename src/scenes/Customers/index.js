@@ -6,7 +6,7 @@ import Layout from '../../layouts'
 import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddCustomer'
 import Profile from './components/Profile'
-import { getList, addCustomer } from './action'
+import { getList, addCustomer, addPrescription } from './action'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -43,6 +43,10 @@ class index extends Component {
     handleOnClick = (value) => {
         
     }
+    addPrescription = (value) => {
+        console.log(value);
+        this.props.addPrescription(value)
+    }
     render() {
         const { customers } = this.props
         const { initialValue, phone, showForm } = this.state
@@ -63,6 +67,7 @@ class index extends Component {
                         <DataTable
                             dataSource={customers.data || []}
                             loading={customers.loading}
+                            createPrescription={this.addPrescription}
                         />
                     {/* </Spin> */}
                 </Layout>
@@ -82,7 +87,9 @@ const mapDispatchToProps = dispatch => ({
     addCustomer: (params) => {
         dispatch(addCustomer(params))
     },
-
+    addPrescription: (params) => {
+        dispatch(addPrescription(params))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)

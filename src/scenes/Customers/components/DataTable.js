@@ -3,8 +3,13 @@ import { Table, Spin, Space, Tooltip } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faInfo } from '@fortawesome/free-solid-svg-icons'
 import {Link} from 'react-router-dom'
-const DataTable = ({ dataSource, loading }) => {
+const DataTable = ({ dataSource, loading, createPrescription }) => {
   console.log(dataSource);
+
+  const onSubmit = (values) => {
+    createPrescription(values)
+}
+
   const columns = [
     {
       title: '#',
@@ -80,15 +85,15 @@ const DataTable = ({ dataSource, loading }) => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record,id) => (
+      render: (text, record) => (
         <Space >
-          <Link to={`/prescription/${id}`} className="btn btn-sm btn-primary">
+          <button  onClick={() => onSubmit(record?.id)} className="btn btn-sm btn-primary">
             <Tooltip placement="top" title="Add prescription">
             <span className="px-2">
             <FontAwesomeIcon icon={faPlus} />
                </span>
             </Tooltip>
-          </Link>
+          </button>
             <Tooltip placement="top" title="Info">
               <Link className="px-3 btn btn-primary btn-sm" to={`/customer/${record.id}/detail`}>
                 <FontAwesomeIcon icon={faInfo} /> 

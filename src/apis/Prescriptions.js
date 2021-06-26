@@ -10,6 +10,14 @@ export const getList =(params)=> {
     })
 }
 
+export const create =(data)=> {
+    return axios({
+        method: 'POST',
+        data,
+        url: `${prefix}`
+    })
+}
+
 export const getDetail =(id)=> {
     return axios({
         method: 'GET',
@@ -51,9 +59,9 @@ export const update =(id, data)=> {
     })
 }
 
-export const destroy =(id)=> {
+export const deleteMedicinePD =(id)=> {
     return axios({
-        method: 'POST',
-        url: `${prefix}/${id}/delete`
+        method: 'DELETE',
+        url: `prescription-medicine/${id}`
     })
 }
