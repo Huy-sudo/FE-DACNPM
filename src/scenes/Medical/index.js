@@ -23,7 +23,6 @@ class index extends Component {
 
     }
 
-
     componentDidMount() {
         this.handleSubmitFilter(this.state.initial_filter_values)
     }
@@ -34,12 +33,10 @@ class index extends Component {
 
     handleAddMedicine= (value) =>
     {
-        const { medical } = this.props
         let data={
             ...value,
             type: 1
         }
-        console.log(data);
         this.props.addMedicine(data)
         this.setState({showForm:false})
     }
@@ -53,7 +50,6 @@ class index extends Component {
             ...values,
         }
         this.props.history.replace(window.location.pathname + '?' + queryString.stringify(params));
-        console.log(params);
         this.props.getList(params)
     }
 
@@ -62,9 +58,9 @@ class index extends Component {
     }
 
     handleEdit = (values) => {
-        let id = this.props.medical.data.id
+        let id = values.id
         let data = {
-            values
+            cost_per_med: values.values.cost_per_med
         }
         this.props.update(id, data)
         this.setState({showForm:false})
@@ -91,7 +87,7 @@ class index extends Component {
                             dataSource={medical.data || []}
                             loading={medical.loading}
                             medical={medical}
-                            handleEdit={this.handleEdit}
+                            update={this.handleEdit}
                         />
                         <Modal
                             title="Add Medicine"

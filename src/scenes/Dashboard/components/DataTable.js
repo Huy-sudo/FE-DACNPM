@@ -4,11 +4,21 @@ import EditValue from "./EditValue";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfo, faEdit } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
-const DataTable = ({ dataSource, loading, handleEdit, dashboard, id }) => {
-  const [isUpdate, setIsUpdate] = useState(0)
+import { update } from '../../../apis/Auth';
+const DataTable = ({ dataSource, loading, dashboard, update }) => {
+  const [isUpdate, setIsUpdate,] = useState(0)
     const handleCancelEdit = () =>{
         setIsUpdate(0)
     }
+
+    const handleEdit = (values) => {
+      let data = {
+          values,
+          id: isUpdate
+      }
+      update(data)
+  }
+
 
     useEffect(() => {
         setIsUpdate(0)

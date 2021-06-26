@@ -80,9 +80,9 @@ const DataTable = ({ dataSource, loading }) => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record) => (
+      render: (text, record,id) => (
         <Space >
-          <Link to={`/prescription`} className="btn btn-sm btn-primary">
+          <Link to={`/prescription/${id}`} className="btn btn-sm btn-primary">
             <Tooltip placement="top" title="Add prescription">
             <span className="px-2">
             <FontAwesomeIcon icon={faPlus} />
