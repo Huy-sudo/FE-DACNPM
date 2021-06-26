@@ -8,7 +8,10 @@ import {
 import {
       action_type as TYPE
   } from './action'  
+  import { push } from 'react-router-redux';    
 import * as api from '../../apis/Customers'
+import * as apiPrescription from '../../apis/Prescriptions'
+
   
 function* getListSaga(action) {
       try {
@@ -48,10 +51,31 @@ function* getListSaga(action) {
     }
 }
 
+function* CreatePrescriptionSaga(action) {
+    try {
+        const { params } = action
+        let data = params
+        const response = yield call(apiPrescription.create, data)
+        if(response.status){
+                yield all([
+                    put({type: TYPE.PRESCRIPTION.SUCCESS, ...response}),
+                ])
+                yield put(push('/prescription'));
+        }else{
+          yield put({type: TYPE.PRESCRIPTION.ERROR, error: response})
+        }
+    } catch (error) {
+        yield all([
+            put({type: TYPE.PRESCRIPTION.ERROR, error})
+        ])
+    }
+}
+
   function* watcher() {
       yield all([
           takeLatest(TYPE.CUSTOMER.REQUEST, getListSaga),
-          takeLatest(TYPE.CREATE.REQUEST, CreateSaga)
+          takeLatest(TYPE.CREATE.REQUEST, CreateSaga),
+          takeLatest(TYPE.PRESCRIPTION.REQUEST, CreatePrescriptionSaga)
       ])
   }
   

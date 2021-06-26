@@ -5,7 +5,7 @@ import Layout from '../../layouts'
 import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddMedicine'
 import PrescriptionDetail from './components/PrescriptionDetail'
-import { getDetail, addMedicinePD, addDetail, getListSymptoms, update, getListUses } from './action'
+import { getDetail, addMedicinePD, addDetail, getListSymptoms, update, getListUses, deleteMedicinePD } from './action'
 import { getList as getListMedical } from "../Medical/action";
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,7 +22,6 @@ class index extends Component {
     }
 
     componentDidMount=()=>{
-        const { prescriptionDetail } = this.props
         this.props.getDetail(this.props.match.params?.id)
         this.props.getListSymptoms()
         this.props.getListMedical({limit: 999})
@@ -55,9 +54,10 @@ class index extends Component {
     }
 
     handleDelete = (values) => { 
-        console.log(values)
+        let idPD = this.props?.prescriptionDetail?.data?.id || 0
+        let id = values
+        this.props.deleteMedicinePD(id, idPD)
     }
-
 
     confirmPrescription = () =>{
         let id = this.props?.prescriptionDetail?.data?.id || 0
@@ -101,7 +101,6 @@ class index extends Component {
                                     prescriptionDetail={prescriptionDetail.data}
                                     loading={prescriptionDetail.loading}
                                     symtoms={prescriptionDetail.symtoms}
-                                    deleteMedicine={this.handleDelete}
                                 />
                                 <a onClick={()=>this.confirmPrescription()} className='btn btn-primary'> Confirm </a>
                                 <a onClick={()=>this.cancelPrescription()} className='btn btn-secondary'> Cancel </a>
@@ -113,6 +112,7 @@ class index extends Component {
                         dataSource={prescriptionDetail?.data?.prescription_detail?.medicine}
                         loading={prescriptionDetail.loading}
                         prescriptionDetail={prescriptionDetail.data}
+                        deleteMedicine={this.handleDelete}
                         />
                         <Modal 
                         title="Add Medicine" 
@@ -169,6 +169,9 @@ const mapDispatchToProps = dispatch => ({
     },
     getListUses: (params) => {
         dispatch(getListUses(params))
+    },
+    deleteMedicinePD: (id, idPD) => {
+        dispatch(deleteMedicinePD(id, idPD))
     },
 })
 
