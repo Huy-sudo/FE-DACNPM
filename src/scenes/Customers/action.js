@@ -32,10 +32,10 @@ export function addCustomer (params)
     }
 }
 
-export function addPrescription (params)
+export function addPrescription (data)
 {
     return {
         type: action_type.PRESCRIPTION.REQUEST,
-        params,
+        data,
     }
 }

@@ -5,7 +5,7 @@ import Layout from '../../layouts'
 import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddMedicine'
 import PrescriptionDetail from './components/PrescriptionDetail'
-import { getDetail, addMedicinePD, addDetail, getListSymptoms, update, getListUses, deleteMedicinePD } from './action'
+import { getDetail, addMedicinePD, addDetail, getListSymptoms, update, getListUses, deleteMedicinePD, createBill } from './action'
 import { getList as getListMedical } from "../Medical/action";
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,14 +17,16 @@ class index extends Component {
             phone: '',
             showForm: false,
             initialValue: {
-            }
+            },
         }
     }
 
-    componentDidMount=()=>{
+    componentDidMount = () => {
         this.props.getDetail(this.props.match.params?.id)
         this.props.getListSymptoms()
-        this.props.getListMedical({limit: 999})
+        this.props.getListMedical({
+            limit: 999
+        })
         this.props.getListUses()
     }
 
@@ -32,61 +34,85 @@ class index extends Component {
         this.setState({ showForm: value || false })
     }
 
-    handleAddMedicine= (value) =>
-    {
+    handleAddMedicine = (value) => {
         const { prescriptionDetail } = this.props
-        let data={
+        let data = {
             ...value,
-            PD_code:prescriptionDetail.data?.prescription_detail?.code || -1,
-            prescription_detail_id:this.props.match.params?.id || 0
+            PD_code: prescriptionDetail.data?.prescription_detail?.code || -1,
+            prescription_detail_id: this.props.match.params?.id || 0
         }
         this.props.addMedicinePD(data)
-        this.setState({showForm:false})
+        this.setState({ showForm: false })
     }
 
-    handleEdit = (values) =>{
+    handleEdit = (values) => {
         let id = this.props?.prescriptionDetail?.data?.id || 0
-        let data={
+        let data = {
             symptoms: (values?.Symptoms || []).join(';') || '',
             diseases: (values?.Diseases || []).join(';') || ''
         }
         this.props.update(id, data)
     }
 
-    handleDelete = (values) => { 
+    handleDelete = (values) => {
         let idPD = this.props?.prescriptionDetail?.data?.id || 0
         let id = values
         this.props.deleteMedicinePD(id, idPD)
     }
 
-    confirmPrescription = () =>{
+    confirmPrescription = () => {
+        console.log(this.props?.prescriptionDetail?.data);
         let id = this.props?.prescriptionDetail?.data?.id || 0
         let data = {
             status: 2
         }
-        this.props.update(id,data)
+        let total_price123 = this.props?.prescriptionDetail?.data?.analysis_price + this.props?.prescriptionDetail?.data?.prescription_detail?.price_medicines;
+        let params = {
+            PD_code: this.props?.prescriptionDetail?.data?.code,
+            total_price: total_price123
+        }
+        this.props.createBill(params)
+        this.props.update(id, data)
+        this.DataModal(this.props?.prescriptionDetail?.data)
     }
 
-    cancelPrescription = () =>{
+    cancelPrescription = () => {
         let id = this.props?.prescriptionDetail?.data?.id || 0
         let data = {
             status: 3
         }
-        this.props.update(id,data)
+        this.props.update(id, data)
     }
 
-    handleCloseModal = (value)=>
-    {
-        this.setState({showForm: false})
+    DataModal = (data) => {
+        Modal.info({
+          title: 'Bill',
+          content: (
+            <div>
+            <div className="modal_data_wrapper">
+            Customer Name: {data.customer.name}
+            </div>
+            <div>Date: {data.updated_at}</div>
+            <div>Diseases: {data.diseases}</div>
+            <div>Symptoms: {data.symptoms}</div>
+            <div>Doctor: {data.user.name}</div>
+            <div>Total Price is: {data.analysis_price + data.prescription_detail.price_medicines}</div>
+            <button type="button" className="ant-btn ant-btn-primary">Pay Now</button>
+            </div>
+          ),
+          })}
+          
+    handleCloseModal = (value) => {
+        this.setState({ showForm: false })
     }
-    
+
     render() {
-        const { prescriptionDetail,medical } = this.props
+        const { prescriptionDetail, medical } = this.props
         const { initialValue, phone, showForm } = this.state
         const initialValueFormAddCustomer = {
             phone: phone
-        }   
-        
+        }
+
         return (
             <div>
                 <Layout>
@@ -102,37 +128,43 @@ class index extends Component {
                                     loading={prescriptionDetail.loading}
                                     symtoms={prescriptionDetail.symtoms}
                                 />
-                                <a onClick={()=>this.confirmPrescription()} className='btn btn-primary'> Confirm </a>
-                                <a onClick={()=>this.cancelPrescription()} className='btn btn-secondary'> Cancel </a>
+                                <a onClick={() => this.confirmPrescription()}  className='btn btn-primary'> Confirm </a>
+                                <a onClick={() => this.cancelPrescription()} className='btn btn-secondary'> Cancel </a>
                             </Spin>
                         </div>
                         <div className="col-8">
-                        <DataTable
-                        handleShowForm={this.handleShowForm}
-                        dataSource={prescriptionDetail?.data?.prescription_detail?.medicine}
-                        loading={prescriptionDetail.loading}
-                        prescriptionDetail={prescriptionDetail.data}
-                        deleteMedicine={this.handleDelete}
-                        />
-                        <Modal 
-                        title="Add Medicine" 
-                        visible={showForm} 
-                        closable={false}
-                        onCancel={this.props.handleCloseModal}
-                        footer= {null}
-                        >
-                            <FormAddCustomer
-                                destroyOnClose={true}
-                                keyboard={true}
-                                maskClosable={true}
-                                medical={medical.data}
-                                onCancel={()=>this.handleShowForm(false)}
-                                initialValues={{amount:1}}
-                                onSubmit={this.handleAddMedicine}
+                            <DataTable
                                 handleShowForm={this.handleShowForm}
-                                uses={prescriptionDetail.uses}
+                                dataSource={prescriptionDetail?.data?.prescription_detail?.medicine}
+                                loading={prescriptionDetail.loading}
+                                prescriptionDetail={prescriptionDetail.data}
+                                deleteMedicine={this.handleDelete}
                             />
-                        </Modal> 
+                            <Modal
+                                title="Add Medicine"
+                                visible={showForm}
+                                closable={false}
+                                onCancel={this.props.handleCloseModal}
+                                footer={null}
+                            >
+                                <FormAddCustomer
+                                    destroyOnClose={true}
+                                    keyboard={true}
+                                    maskClosable={true}
+                                    medical={medical.data}
+                                    onCancel={() => this.handleShowForm(false)}
+                                    initialValues={{ amount: 1 }}
+                                    onSubmit={this.handleAddMedicine}
+                                    handleShowForm={this.handleShowForm}
+                                    uses={prescriptionDetail.uses}
+                                />
+                            </Modal>
+                            {/* <Modal 
+                            title="Bill" 
+                            visible={isModalVisible} 
+                            onOk={this.handleOk} 
+                            onCancel={this.handleCancel}>
+                            </Modal> */}
                         </div>
                     </div>
                 </Layout>
@@ -161,8 +193,8 @@ const mapDispatchToProps = dispatch => ({
     addDetail: (data) => {
         dispatch(addDetail(data))
     },
-    update: (id,data) => {
-        dispatch(update(id,data))
+    update: (id, data) => {
+        dispatch(update(id, data))
     },
     getListMedical: (params) => {
         dispatch(getListMedical(params))
@@ -172,6 +204,9 @@ const mapDispatchToProps = dispatch => ({
     },
     deleteMedicinePD: (id, idPD) => {
         dispatch(deleteMedicinePD(id, idPD))
+    },
+    createBill: (params) => {
+        dispatch(createBill(params))
     },
 })
 

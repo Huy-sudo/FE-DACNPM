@@ -22,7 +22,15 @@ let ContactForm = props => {
                         <Field
                             name="code"
                             component={RenderInputText}
-                            placeholder='code'
+                            placeholder='Prescription Code'
+                            showTime={false}
+                        />
+                    </div>
+                    <div className='col-3 mb-3 text-left' >
+                        <Field
+                            name="customer_name"
+                            component={RenderInputText}
+                            placeholder='Customer Name'
                             showTime={false}
                         />
                     </div>

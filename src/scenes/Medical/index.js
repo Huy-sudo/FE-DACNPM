@@ -81,7 +81,7 @@ class index extends Component {
                                 initialValues={initial_filter_values}
                                 onSubmit={this.handleSubmitFilter}
                             />
-                            <button onClick={() => this.handleShowForm(true)} className="btn-primary btn px-2"> <FontAwesomeIcon icon={faPlus} />Add</button>
+                            <button onClick={() => this.handleShowForm(true)} className="btn-primary btn px-2 mb-3"> Add</button>
                     <div>
                         <DataTable
                             dataSource={medical.data || []}

@@ -33,6 +33,11 @@ export const action_type = {
         REQUEST: "PRESCRIPTION.UPDATE.REQUEST",
         SUCCESS: "PRESCRIPTION.UPDATE.SUCCESS",
         ERROR: "PRESCRIPTION.UPDATE.ERROR"
+    },
+    CREATEBILL: {
+        REQUEST: "CREATEBILL.REQUEST",
+        SUCCESS: "CREATEBILL.SUCCESS",
+        ERROR: "CREATEBILL.ERROR"
     }
 }
 
@@ -88,5 +93,12 @@ export function update (id, data){
         type: action_type.UPDATE.REQUEST,
         id,
         data
+    }
+}
+
+export function createBill (params){
+    return {
+        type: action_type.CREATEBILL.REQUEST,
+        params
     }
 }

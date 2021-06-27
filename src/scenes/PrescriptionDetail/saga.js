@@ -11,6 +11,7 @@ import {
 import * as api from '../../apis/Prescriptions'
 import * as apiSymtoms from '../../apis/symptoms'
 import * as apiUses from '../../apis/Uses'
+import * as apiBill from '../../apis/Bill'
 
   
 function* getDetailSaga(action) {
@@ -143,6 +144,24 @@ function* updateSymptom(action) {
         ])
     }
 }
+
+function* createBill(action) {
+    try {
+        const { params } = action
+        const response = yield call(apiBill.create, params)
+        if(response.status){
+                yield all([
+                    put({type: TYPE.CREATEBILL.SUCCESS, ...response}),
+                ])
+        }else{
+          yield put({type: TYPE.CREATEBILL.ERROR, error: response})
+        }
+    } catch (error) {
+        yield all([
+            put({type: TYPE.CREATEBILL.ERROR, error})
+        ])
+    }
+}
   
   function* watcher() {
       yield all([
@@ -152,7 +171,8 @@ function* updateSymptom(action) {
           takeLatest(TYPE.SYMPTOMS.REQUEST, getListSymptomSaga),
           takeLatest(TYPE.UPDATE.REQUEST, updateSymptom),
           takeLatest(TYPE.USES.REQUEST, getListUseSaga),
-          takeLatest(TYPE.DELETEMEDICINEPD.REQUEST, deleteMedicinePD)
+          takeLatest(TYPE.DELETEMEDICINEPD.REQUEST, deleteMedicinePD),
+          takeLatest(TYPE.CREATEBILL.REQUEST, createBill)
       ])
   }
   

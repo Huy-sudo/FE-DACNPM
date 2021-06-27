@@ -22,9 +22,11 @@ class index extends Component {
         }
 
     }
+    
     componentDidMount=()=>{
         this.handleSubmitFilter(this.state.initial_filter_values)
     }
+
     handleSubmitFilter = ({  ...values }) => {
         let params = {
             ...values,
@@ -40,12 +42,13 @@ class index extends Component {
     handleAddCustomer = (value) => {
         this.props.addCustomer(value)
     }
-    handleOnClick = (value) => {
-        
-    }
+  
     addPrescription = (value) => {
-        console.log(value);
-        this.props.addPrescription(value)
+        let data = {
+            customer_id: value
+        }
+        console.log(data);
+        this.props.addPrescription(data)
     }
     render() {
         const { customers } = this.props
@@ -87,8 +90,8 @@ const mapDispatchToProps = dispatch => ({
     addCustomer: (params) => {
         dispatch(addCustomer(params))
     },
-    addPrescription: (params) => {
-        dispatch(addPrescription(params))
+    addPrescription: (data) => {
+        dispatch(addPrescription(data))
     }
 })
 

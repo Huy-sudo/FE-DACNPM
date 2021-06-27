@@ -19,9 +19,13 @@ class index extends Component {
         this.handleSubmitFilter(this.state.initial_filter_values)
     }
 
-    handleSubmitFilter = ({date,...values}) => {
+    handleSubmitFilter = ({date,customer_name,...values}) => {
+        const {prescriptions} = this.props
+        console.log(this.props);
         let params = {
             ...values,
+            customer_id: this.props.match.params?.id || null,
+            status:1,
             data_customer:1
            }
         if(date){

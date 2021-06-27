@@ -53,14 +53,13 @@ function* getListSaga(action) {
 
 function* CreatePrescriptionSaga(action) {
     try {
-        const { params } = action
-        let data = params
+        const { data } = action
+        console.log(data);
         const response = yield call(apiPrescription.create, data)
         if(response.status){
                 yield all([
                     put({type: TYPE.PRESCRIPTION.SUCCESS, ...response}),
                 ])
-                yield put(push('/prescription'));
         }else{
           yield put({type: TYPE.PRESCRIPTION.ERROR, error: response})
         }
