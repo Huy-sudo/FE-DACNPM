@@ -5,6 +5,7 @@ import PrescriptionDetail from "./PrescriptionDetail"
 import CustomerDetail from "./CustomerDetail"
 import Dashboard from "./Dashboard";
 import Medical from "./Medical";
+import Home from "./Home"
 export default [
     {
         path: '/prescription',
@@ -35,7 +36,7 @@ export default [
         component: Medical
     },
     {
-        path: '/inventory',
-        component: Medical
+        path: '/home',
+        component: Home
     },
 ]

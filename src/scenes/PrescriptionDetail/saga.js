@@ -162,6 +162,24 @@ function* createBill(action) {
         ])
     }
 }
+
+function* updateBill(action) {
+    try {
+        const { id, data } = action
+        const response = yield call(apiBill.update, id, data)
+        if(response.status){
+                yield all([
+                    put({type: TYPE.UPDATEBILL.SUCCESS, ...response}),
+                ])
+        }else{
+          yield put({type: TYPE.UPDATEBILL.ERROR, error: response})
+        }
+    } catch (error) {
+        yield all([
+            put({type: TYPE.UPDATEBILL.ERROR, error})
+        ])
+    }
+}
   
   function* watcher() {
       yield all([
@@ -172,7 +190,8 @@ function* createBill(action) {
           takeLatest(TYPE.UPDATE.REQUEST, updateSymptom),
           takeLatest(TYPE.USES.REQUEST, getListUseSaga),
           takeLatest(TYPE.DELETEMEDICINEPD.REQUEST, deleteMedicinePD),
-          takeLatest(TYPE.CREATEBILL.REQUEST, createBill)
+          takeLatest(TYPE.CREATEBILL.REQUEST, createBill),
+          takeLatest(TYPE.UPDATEBILL.REQUEST, updateBill)
       ])
   }
   

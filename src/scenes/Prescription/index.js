@@ -20,8 +20,6 @@ class index extends Component {
     }
 
     handleSubmitFilter = ({date,customer_name,...values}) => {
-        const {prescriptions} = this.props
-        console.log(this.props);
         let params = {
             ...values,
             customer_id: this.props.match.params?.id || null,

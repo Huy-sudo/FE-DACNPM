@@ -8,7 +8,8 @@ import {
 import {
       action_type as TYPE
   } from './action'  
-  import { push } from 'react-router-redux';    
+  import { push } from 'react-router-redux';   
+   
 import * as api from '../../apis/Customers'
 import * as apiPrescription from '../../apis/Prescriptions'
 
@@ -70,11 +71,32 @@ function* CreatePrescriptionSaga(action) {
     }
 }
 
+function* deleteCustomerSaga(action) {
+    try {
+        const { id } = action
+        const response = yield call(api.destroy, id)
+        console.log(id);
+        if(response.status){
+                yield all([
+                    put({type: TYPE.DELETECUSTOMER.SUCCESS, ...response}),
+                ])
+        }else{
+          yield put({type: TYPE.DELETECUSTOMER.ERROR, error: response})
+        }
+    } catch (error) {
+        yield all([
+            put({type: TYPE.DELETECUSTOMER.ERROR, error})
+        ])
+    }
+}
+
+
   function* watcher() {
       yield all([
           takeLatest(TYPE.CUSTOMER.REQUEST, getListSaga),
           takeLatest(TYPE.CREATE.REQUEST, CreateSaga),
-          takeLatest(TYPE.PRESCRIPTION.REQUEST, CreatePrescriptionSaga)
+          takeLatest(TYPE.PRESCRIPTION.REQUEST, CreatePrescriptionSaga),
+          takeLatest(TYPE.DELETECUSTOMER.REQUEST, deleteCustomerSaga),
       ])
   }
   

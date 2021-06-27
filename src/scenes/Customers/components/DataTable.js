@@ -1,14 +1,17 @@
 import React from 'react';
 import { Table, Spin, Space, Tooltip } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faInfo } from '@fortawesome/free-solid-svg-icons'
-import {Link} from 'react-router-dom'
-const DataTable = ({ dataSource, loading, createPrescription }) => {
-  console.log(dataSource);
+import { faPlus, faInfo, faExclamation } from '@fortawesome/free-solid-svg-icons'
+import { Link } from 'react-router-dom'
+const DataTable = ({ dataSource, loading, createPrescription, deleteCustomer }) => {
 
   const onSubmit = (values) => {
     createPrescription(values)
-}
+  }
+
+  const onDelete = (values) => {
+    deleteCustomer(values)
+  }
 
   const columns = [
     {
@@ -87,18 +90,25 @@ const DataTable = ({ dataSource, loading, createPrescription }) => {
       key: 'action',
       render: (text, record) => (
         <Space >
-          <button  onClick={() => onSubmit(record?.id)} className="btn btn-sm btn-primary">
+          <button onClick={() => onSubmit(record?.id)} className="btn btn-sm btn-primary">
             <Tooltip placement="top" title="Add prescription">
-            <span className="px-2">
-            <FontAwesomeIcon icon={faPlus} />
-               </span>
+              <span className="px-2">
+                <FontAwesomeIcon icon={faPlus} />
+              </span>
             </Tooltip>
           </button>
-            <Tooltip placement="top" title="Info">
-              <Link className="px-3 btn btn-primary btn-sm" to={`/customer/${record.id}/detail`}>
-                <FontAwesomeIcon icon={faInfo} /> 
-              </Link>
+          <button onClick={() => onDelete(record?.id)} className="btn btn-sm btn-danger">
+            <Tooltip placement="top" title="Delete customer">
+              <span className="px-2">
+                <FontAwesomeIcon icon={faExclamation} />
+              </span>
             </Tooltip>
+          </button>
+          <Tooltip placement="top" title="Info">
+            <Link className="px-3 btn btn-primary btn-sm" to={`/customer/${record.id}/detail`}>
+              <FontAwesomeIcon icon={faInfo} />
+            </Link>
+          </Tooltip>
         </Space>
       ),
     },]

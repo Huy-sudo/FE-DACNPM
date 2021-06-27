@@ -45,7 +45,7 @@ export const update =(id, data)=> {
 
 export const destroy =(id)=> {
     return axios({
-        method: 'POST',
-        url: `${prefix}/${id}/delete`
+        method: 'DELETE',
+        url: `${prefix}/${id}`
     })
 }

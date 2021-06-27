@@ -5,7 +5,7 @@ import Layout from '../../layouts'
 import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddMedicine'
 import PrescriptionDetail from './components/PrescriptionDetail'
-import { getDetail, addMedicinePD, addDetail, getListSymptoms, update, getListUses, deleteMedicinePD, createBill } from './action'
+import { getDetail, addMedicinePD, addDetail, getListSymptoms, update, getListUses, deleteMedicinePD, createBill, updateBill } from './action'
 import { getList as getListMedical } from "../Medical/action";
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,6 +22,12 @@ class index extends Component {
     }
 
     componentDidMount = () => {
+        let total_price123 = this.props?.prescriptionDetail?.data?.analysis_price + this.props?.prescriptionDetail?.data?.prescription_detail?.price_medicines;
+        let params = {
+            PD_code: this.props?.prescriptionDetail?.data?.prescription_detail?.code,
+            total_price: total_price123
+        }
+        this.props.createBill(params)
         this.props.getDetail(this.props.match.params?.id)
         this.props.getListSymptoms()
         this.props.getListMedical({
@@ -66,12 +72,6 @@ class index extends Component {
         let data = {
             status: 2
         }
-        let total_price123 = this.props?.prescriptionDetail?.data?.analysis_price + this.props?.prescriptionDetail?.data?.prescription_detail?.price_medicines;
-        let params = {
-            PD_code: this.props?.prescriptionDetail?.data?.code,
-            total_price: total_price123
-        }
-        this.props.createBill(params)
         this.props.update(id, data)
         this.DataModal(this.props?.prescriptionDetail?.data)
     }
@@ -82,6 +82,13 @@ class index extends Component {
             status: 3
         }
         this.props.update(id, data)
+    }
+
+    updateBill = (id) => {
+        let data = {
+            status: 2
+        }
+        this.props.updateBill(id,data)
     }
 
     DataModal = (data) => {
@@ -97,7 +104,7 @@ class index extends Component {
             <div>Symptoms: {data.symptoms}</div>
             <div>Doctor: {data.user.name}</div>
             <div>Total Price is: {data.analysis_price + data.prescription_detail.price_medicines}</div>
-            <button type="button" className="ant-btn ant-btn-primary">Pay Now</button>
+            <button type="button" className="ant-btn ant-btn-primary" onClick={() => this.updateBill(data.prescription_detail.bill.id)}>Pay Now</button>
             </div>
           ),
           })}
@@ -207,6 +214,9 @@ const mapDispatchToProps = dispatch => ({
     },
     createBill: (params) => {
         dispatch(createBill(params))
+    },
+    updateBill: (id, data) => {
+        dispatch(updateBill(id, data))
     },
 })
 

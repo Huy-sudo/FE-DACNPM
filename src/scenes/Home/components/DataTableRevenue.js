@@ -1,9 +1,12 @@
 import React from 'react';
-import { Table, Spin } from 'antd';
+import { Table, Spin, Typography  } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faInfo } from '@fortawesome/free-solid-svg-icons'
 import { Link } from 'react-router-dom'
 const DataTable = ({ dataSource, loading }) => {
+
+  const { Text } = Typography;
+
   const columns = [
     {
       title: '#',
@@ -59,24 +62,43 @@ const DataTable = ({ dataSource, loading }) => {
           <span className={value == 1 ? 'text-info' : 'text-success'}>{value == 1 ? 'Pending' : 'Completed'}</span>
         </div>
     },
-    {
-      title: 'Action',
-      key: 'action',
-      render: (text, record) => (
-        <Link to={`/prescription/${record.id}/detail`} className="btn btn-sm btn-primary">
-          <span className="px-2">
-            EDIT 
-          </span>
-        </Link>
-      )
-    }]
+  ]
   return (
     <Table
-      rowKey="id"
-      columns={columns}
-      dataSource={dataSource || []}
-      loading={loading}
-    />
+    columns={columns}
+    dataSource={dataSource}
+    pagination={false}
+    bordered
+    summary={pageData => {
+      let totalBorrow = 0;
+      let totalRepayment = 0;
+
+      pageData.forEach(({ borrow, repayment }) => {
+        totalBorrow += borrow;
+        totalRepayment += repayment;
+      });
+      return (
+        <>
+          <Table.Summary.Row>
+            <Table.Summary.Cell>Total</Table.Summary.Cell>
+            <Table.Summary.Cell>
+              <Text type="danger">{totalBorrow}</Text>
+            </Table.Summary.Cell>
+            <Table.Summary.Cell>
+              <Text>{totalRepayment}</Text>
+            </Table.Summary.Cell>
+          </Table.Summary.Row>
+          <Table.Summary.Row>
+            <Table.Summary.Cell>Balance</Table.Summary.Cell>
+            <Table.Summary.Cell colSpan={2}>
+              <Text type="danger">{totalBorrow - totalRepayment}</Text>
+            </Table.Summary.Cell>
+          </Table.Summary.Row>
+        </>
+      );
+    }}
+  />
+
   );
 }
 

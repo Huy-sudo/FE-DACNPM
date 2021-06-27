@@ -14,6 +14,11 @@ export const action_type = {
         SUCCESS: "PRESCRIPTION.CREATE.SUCCESS",
         ERROR: "PRESCRIPTION.CREATE.ERROR"
     },
+    DELETECUSTOMER: {
+        REQUEST: "DELETECUSTOMER.REQUEST",
+        SUCCESS: "DELETECUSTOMER.SUCCESS",
+        ERROR: "DELETECUSTOMER.ERROR"
+    },
 }
 
 export function getList (params)
@@ -37,5 +42,13 @@ export function addPrescription (data)
     return {
         type: action_type.PRESCRIPTION.REQUEST,
         data,
+    }
+}
+
+export function deleteCustomer (id)
+{
+    return {
+        type: action_type.DELETECUSTOMER.REQUEST,
+        id
     }
 }

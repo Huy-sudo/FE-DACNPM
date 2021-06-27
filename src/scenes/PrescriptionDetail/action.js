@@ -38,6 +38,11 @@ export const action_type = {
         REQUEST: "CREATEBILL.REQUEST",
         SUCCESS: "CREATEBILL.SUCCESS",
         ERROR: "CREATEBILL.ERROR"
+    },
+    UPDATEBILL: {
+        REQUEST: "UPDATEBILL.REQUEST",
+        SUCCESS: "UPDATEBILL.SUCCESS",
+        ERROR: "UPDATEBILL.ERROR"
     }
 }
 
@@ -100,5 +105,13 @@ export function createBill (params){
     return {
         type: action_type.CREATEBILL.REQUEST,
         params
+    }
+}
+
+export function updateBill (id, data){
+    return {
+        type: action_type.UPDATEBILL.REQUEST,
+        id,
+        data
     }
 }

@@ -6,7 +6,7 @@ import Layout from '../../layouts'
 import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddCustomer'
 import Profile from './components/Profile'
-import { getList, addCustomer, addPrescription } from './action'
+import { getList, addCustomer, addPrescription, deleteCustomer } from './action'
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -30,6 +30,7 @@ class index extends Component {
     handleSubmitFilter = ({  ...values }) => {
         let params = {
             ...values,
+            status:1
         }
         this.props.history.replace(window.location.pathname + '?' + queryString.stringify(params));
         this.props.getList(params)
@@ -47,9 +48,13 @@ class index extends Component {
         let data = {
             customer_id: value
         }
-        console.log(data);
         this.props.addPrescription(data)
     }
+
+    deleteCustomer = (value) => {
+        this.props.deleteCustomer(value)
+    }
+
     render() {
         const { customers } = this.props
         const { initialValue, phone, showForm } = this.state
@@ -71,6 +76,7 @@ class index extends Component {
                             dataSource={customers.data || []}
                             loading={customers.loading}
                             createPrescription={this.addPrescription}
+                            deleteCustomer={this.deleteCustomer}
                         />
                     {/* </Spin> */}
                 </Layout>
@@ -92,6 +98,9 @@ const mapDispatchToProps = dispatch => ({
     },
     addPrescription: (data) => {
         dispatch(addPrescription(data))
+    },
+    deleteCustomer: (id) => {
+        dispatch(deleteCustomer(id))
     }
 })
 

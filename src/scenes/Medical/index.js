@@ -64,6 +64,7 @@ class index extends Component {
         }
         this.props.update(id, data)
         this.setState({showForm:false})
+        console.log(this.props.medical.data);
     }
 
     render() {

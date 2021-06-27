@@ -18,7 +18,7 @@ function* getListSaga(action) {
           const { params } = action
           let data = params
           const response = yield call(api.signup, data)
-          if(response){
+          if(response.status){
                   yield all([
                       put({type: TYPE.SIGNUP.SUCCESS, ...response.message}),
                   ])

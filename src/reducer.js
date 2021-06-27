@@ -9,6 +9,8 @@ import prescriptionDetail from "./scenes/PrescriptionDetail/reducer"
 import customerDetail from "./scenes/CustomerDetail/reducer"
 import medical from "./scenes/Medical/reducer"
 import dashboard from "./scenes/Dashboard/reducer"
+import home from "./scenes/Home/reducer"
+
 
 const Reducer = (history) => combineReducers({    
     form: formReducer,
@@ -20,7 +22,8 @@ const Reducer = (history) => combineReducers({
     prescriptionDetail,
     customerDetail,
     medical,
-    dashboard
+    dashboard,
+    home
   })
   
 export default Reducer
