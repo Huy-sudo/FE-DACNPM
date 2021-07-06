@@ -22,7 +22,7 @@ const DataTable = ({ dataSource, loading }) => {
       dataIndex: 'customer',
       key: 'customer',
       className: 'text-left',
-      width: 200,
+      width: 250,
       render: (value, record) =>
         <div>
           <span> {value?.name || ''} - {value?.phone || ''} </span>
@@ -39,14 +39,14 @@ const DataTable = ({ dataSource, loading }) => {
       title: 'Symptom',
       dataIndex: 'symptoms',
       key: 'symptoms',
-      width: 200,
+      width: 280,
       render: (value, record) => <a>{record?.symptoms || ''}</a>,
     },
     {
       title: 'Disease',
       dataIndex: 'diseases',
       key: 'diseases',
-      width: 200,
+      width: 280,
       render: (value, record) => <a>{record?.diseases || ''}</a>,
     },
     {
@@ -56,7 +56,7 @@ const DataTable = ({ dataSource, loading }) => {
       width: 100,
       render: (value, record) =>
         <div>
-          <span className={value == 1 ? 'text-info' : 'text-success'}>{value == 1 ? 'Pending' : 'Completed'}</span>
+          <span className={value == 1 ? 'text-info' : value == 3 ? 'text-danger' : 'text-success'}>{value == 1 ? 'Pending' : value == 3 ? 'Cancel' : 'Completed'}</span>
         </div>
     },
     {

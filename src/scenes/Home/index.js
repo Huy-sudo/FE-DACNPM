@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Spin } from 'antd';
 import { connect } from 'react-redux'
-import FormFilter from './components/FormFilter'
+import FormFilterMedicine from './components/FormFilterMedicine'
+import FormFilterRevenue from './components/FormFilterRevenue'
 import Layout from '../../layouts'
 import DataTableRevenue from './components/DataTableRevenue'
 import DataTableMedicine from './components/DataTableMedicine'
@@ -14,44 +15,52 @@ class index extends Component {
         this.state = {
         };
     }
+
     componentDidMount() {
-        this.props.getListMedicine()
+        let paramsPrescription = {
+            month: 6
+        }
+        let paramsMedicine = {
+            status: 1,
+            month: 6
+        }
+        this.handleSubmitFilterPrescription(paramsPrescription)
+        this.handleSubmitFilterMedicine(paramsMedicine)
+        console.log(this.props.home);
+    }
+
+    handleSubmitFilterPrescription = ({ month, ...values }) => {
         let params = {
-            status:2,
-           }
+            ...values,
+            status: 2,
+        }
+        if (month) {
+            params.month = month
+        }
+        else {
+            month = 6
+            params.month = month
+        }
         this.props.getListPrescription(params)
     }
 
-    handleSubmitFilterPrescription = ({month,...values}) => {
+    handleSubmitFilterMedicine = ({ month, ...values }) => {
         let params = {
             ...values,
-            status:2,
-           }
-        if(month){
-            params.from_date = date.format('YYYY-{month}-DD')
-            params.to_date = date.format('YYYY-MM-DD')
-        } 
-        else
-        {
-
+            status: 1
         }
-        this.props.getList(params)
-    }
-    }
-
-    handleSubmitFilterMedicine = (values) => {
-        let params = {
-            ...values,
+        if (month) {
+            params.month = month
         }
-        // if (date) {
-        //     params.from_date = params.to_date = date.format('YYYY-MM-DD')
-        // }
+        else {
+            month = 6
+            params.month = month
+        }
         this.props.getListMedicine(params)
     }
 
-
     render() {
-        const { prescription, medicine } = this.props
+        const { home } = this.props
 
         return (
             <div>
@@ -62,24 +71,24 @@ class index extends Component {
                                 <div className='container-fluid mb-3 text-left py-2'>
                                     <span className='h5 font-weight-bold '>Revenue</span>
                                 </div>
-                                <FormFilter
+                                <FormFilterRevenue
                                     onSubmit={this.handleSubmitFilterPrescription}
                                 />
                                 <DataTableRevenue
-                                    dataSource={prescription.data || []}
-                                    loading={prescription.loading}
-                                />
+                                    dataSource={home.prescription || []}
+                                    loading={home.loading}
+                                />  
                             </div>
                             <div className="col-6 pt-3 bg-white px-4">
                                 <div className='container-fluid mb-3 text-left py-2'>
                                     <span className='h5 font-weight-bold '>Medicine</span>
                                 </div>
-                                <FormFilter
+                                <FormFilterMedicine
                                     onSubmit={this.handleSubmitFilterMedicine}
                                 />
                                 <DataTableMedicine
-                                    dataSource={medicine.data || []}
-                                    loading={medicine.loading}
+                                    dataSource={home.medicine || []}
+                                    loading={home.loading}
                                 />
                             </div>
                         </div>
@@ -91,6 +100,7 @@ class index extends Component {
 }
 
 const mapStateToProps = (state) => ({
+    home:state.home,
     prescription: state.prescription,
     medicine: state.medicine
 })

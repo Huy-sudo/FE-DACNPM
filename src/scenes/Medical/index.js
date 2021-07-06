@@ -4,8 +4,9 @@ import { Button, Spin, Modal } from 'antd';
 import DataTable from './components/DataTable';
 import FormFilter from './components/FormFilter'
 import FormAddMedicine from './components/FormAddMedicine'
+import FormCreateMedicine from './components/FormCreateMedicine'
 import Layout from '../../layouts'
-import { getList, update, addMedicine } from './action'
+import { getList, update, addMedicine, createMedicine, getListUses, deleteMedicine, getListUnit } from './action'
 import { connect } from 'react-redux'
 import queryString from 'query-string'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,6 +18,7 @@ class index extends Component {
         this.state = {
             initial_filter_values: query_params,
             showForm: false,
+            showFormMedicine: false,
             initialValue: {
             }
         };
@@ -25,6 +27,8 @@ class index extends Component {
 
     componentDidMount() {
         this.handleSubmitFilter(this.state.initial_filter_values)
+        this.props.getListUses()
+        this.props.getListUnit()
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -41,8 +45,21 @@ class index extends Component {
         this.setState({showForm:false})
     }
 
+    handleCreateMedicine= (value) =>
+    {
+        let data={
+            ...value,
+        }
+        this.props.createMedicine(data)
+        this.setState({showFormMedicine:false})
+    }
+
     handleShowForm = (value) => {
         this.setState({ showForm: value || false })
+    }
+
+    handleShowFormMedicine = (value) =>{
+        this.setState({showFormMedicine: value ||false})
     }
 
     handleSubmitFilter = (values) => {
@@ -57,6 +74,14 @@ class index extends Component {
         this.setState({ showForm: false })
     }
 
+    handleCloseModalMedicine = (value) => {
+        this.setState({ showFormMedicine: false })
+    }
+
+    deleteMedicine = (value) => {
+        this.props.deleteMedicine(value)
+    }
+
     handleEdit = (values) => {
         let id = values.id
         let data = {
@@ -64,13 +89,12 @@ class index extends Component {
         }
         this.props.update(id, data)
         this.setState({showForm:false})
-        console.log(this.props.medical.data);
     }
 
     render() {
         const { medical } = this.props
 
-        const { initial_filter_values, showForm } = this.state
+        const { initial_filter_values, showForm, showFormMedicine } = this.state
 
         return (
             <Layout>
@@ -82,13 +106,15 @@ class index extends Component {
                                 initialValues={initial_filter_values}
                                 onSubmit={this.handleSubmitFilter}
                             />
-                            <button onClick={() => this.handleShowForm(true)} className="btn-primary btn px-2 mb-3"> Add</button>
+                            <button onClick={() => this.handleShowForm(true)} className="btn-primary btn px-2 mb-3"> Add Medicine</button>
+                            <button onClick={() => this.handleShowFormMedicine(true)} className="btn-primary btn px-2 mb-3 margin-left:20px"> Create Medicine</button>
                     <div>
                         <DataTable
                             dataSource={medical.data || []}
                             loading={medical.loading}
                             medical={medical}
                             update={this.handleEdit}
+                            deleteMedicine={this.deleteMedicine}
                         />
                         <Modal
                             title="Add Medicine"
@@ -108,6 +134,25 @@ class index extends Component {
                                 handleShowForm={this.handleShowForm}
                             />
                         </Modal>
+                        <Modal
+                            title="Create Medicine"
+                            visible={showFormMedicine}
+                            closable={false}
+                            onCancel={this.props.handleCloseModalMedicine}
+                            footer={null}
+                        >
+                            <FormCreateMedicine
+                                destroyOnClose={true}
+                                keyboard={true}
+                                maskClosable={true}
+                                medical={medical.data}
+                                onCancel={() => this.handleShowFormMedicine(false)}
+                                initialValues={{ amount: 1 }}
+                                onSubmit={this.handleCreateMedicine}
+                                handleShowFormMedicine={this.handleShowFormMedicine}
+                                unit={medical.unit}
+                            />
+                        </Modal>
                     </div>
                 </Spin>
             </Layout>
@@ -117,7 +162,9 @@ class index extends Component {
 
 const mapStateToProps = (state) => ({
     user: state.login.user,
-    medical: state.medical
+    medical: state.medical,
+    uses: state.uses,
+    unit: state.unit
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -130,6 +177,18 @@ const mapDispatchToProps = dispatch => ({
     addMedicine: (data) => {
         dispatch(addMedicine(data))
     },
+    createMedicine: (data) => {
+        dispatch(createMedicine(data))
+    },
+    getListUses: (params) => {
+        dispatch(getListUses(params))
+    },
+    getListUnit: (params) => {
+        dispatch(getListUnit(params))
+    },
+    deleteMedicine: (id) => {
+        dispatch(deleteMedicine(id))
+    }
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(index)

@@ -1,20 +1,20 @@
 export const action_type = {
-    PRESCRIPTION: {
-        REQUEST: "PRESCRIPTION.REQUEST",
-        SUCCESS: "PRESCRIPTION.SUCCESS",
-        ERROR: "PRESCRIPTION.ERROR"
+    GETPRESCRIPTION: {
+        REQUEST: "GETPRESCRIPTION.REQUEST",
+        SUCCESS: "GETPRESCRIPTION.SUCCESS",
+        ERROR: "GETPRESCRIPTION.ERROR"
     },
-    MEDICINE: {
-        REQUEST: "MEDICINE.REQUEST",
-        SUCCESS: "MEDICINE.SUCCESS",
-        ERROR: "MEDICINE.ERROR"
+    GETMEDICINE: {
+        REQUEST: "GETMEDICINE.REQUEST",
+        SUCCESS: "GETMEDICINE.SUCCESS",
+        ERROR: "GETMEDICINE.ERROR"
     }
 }
 
 export function getListPrescription (params)
 {
     return {
-        type: action_type.PRESCRIPTION.REQUEST,
+        type: action_type.GETPRESCRIPTION.REQUEST,
         params,
     }
 }
@@ -22,7 +22,7 @@ export function getListPrescription (params)
 export function getListMedicine (params)
 {
     return {
-        type: action_type.Medicine.REQUEST,
+        type: action_type.GETMEDICINE.REQUEST,
         params,
     }
 }

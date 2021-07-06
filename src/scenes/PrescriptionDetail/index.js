@@ -5,7 +5,7 @@ import Layout from '../../layouts'
 import DataTable from './components/DataTable'
 import FormAddCustomer from './components/FormAddMedicine'
 import PrescriptionDetail from './components/PrescriptionDetail'
-import { getDetail, addMedicinePD, addDetail, getListSymptoms, update, getListUses, deleteMedicinePD, createBill, updateBill } from './action'
+import { getDetail, addMedicinePD, addDetail, getListSymptoms, update, getListUses, deleteMedicinePD, createBill, updateBill, createInventory } from './action'
 import { getList as getListMedical } from "../Medical/action";
 import moment from 'moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -22,13 +22,8 @@ class index extends Component {
     }
 
     componentDidMount = () => {
-        let total_price123 = this.props?.prescriptionDetail?.data?.analysis_price + this.props?.prescriptionDetail?.data?.prescription_detail?.price_medicines;
-        let params = {
-            PD_code: this.props?.prescriptionDetail?.data?.prescription_detail?.code,
-            total_price: total_price123
-        }
-        this.props.createBill(params)
         this.props.getDetail(this.props.match.params?.id)
+        
         this.props.getListSymptoms()
         this.props.getListMedical({
             limit: 999
@@ -38,6 +33,12 @@ class index extends Component {
 
     handleShowForm = (value) => {
         this.setState({ showForm: value || false })
+        let total_price123 = this.props?.prescriptionDetail?.data?.analysis_price + this.props?.prescriptionDetail?.data?.prescription_detail?.price_medicines;
+        let params = {
+            PD_code: this.props?.prescriptionDetail?.data?.prescription_detail?.code,
+            total_price: total_price123
+        }
+        this.props.createBill(params)
     }
 
     handleAddMedicine = (value) => {
@@ -67,7 +68,6 @@ class index extends Component {
     }
 
     confirmPrescription = () => {
-        console.log(this.props?.prescriptionDetail?.data);
         let id = this.props?.prescriptionDetail?.data?.id || 0
         let data = {
             status: 2
@@ -104,7 +104,7 @@ class index extends Component {
             <div>Symptoms: {data.symptoms}</div>
             <div>Doctor: {data.user.name}</div>
             <div>Total Price is: {data.analysis_price + data.prescription_detail.price_medicines}</div>
-            <button type="button" className="ant-btn ant-btn-primary" onClick={() => this.updateBill(data.prescription_detail.bill.id)}>Pay Now</button>
+            <button type="button" className="ant-btn ant-btn-primary" onClick={() => this.updateBill(data?.prescription_detail?.bill?.id)}>Pay Now</button>
             </div>
           ),
           })}
@@ -166,12 +166,6 @@ class index extends Component {
                                     uses={prescriptionDetail.uses}
                                 />
                             </Modal>
-                            {/* <Modal 
-                            title="Bill" 
-                            visible={isModalVisible} 
-                            onOk={this.handleOk} 
-                            onCancel={this.handleCancel}>
-                            </Modal> */}
                         </div>
                     </div>
                 </Layout>
@@ -217,6 +211,9 @@ const mapDispatchToProps = dispatch => ({
     },
     updateBill: (id, data) => {
         dispatch(updateBill(id, data))
+    },
+    createInventory: (params) => {
+        dispatch(createInventory(params))
     },
 })
 

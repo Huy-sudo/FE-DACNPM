@@ -10,6 +10,15 @@ export const getList =(params)=> {
     })
 }
 
+
+export const getListUnit =(params)=> {
+    return axios({
+        method: 'GET',
+        params,
+        url: `/unit`
+    })
+}
+
 export const getDetail =(id)=> {
     return axios({
         method: 'GET',
@@ -22,6 +31,21 @@ export const addMedicine =(data)=> {
         method: 'POST',
         data,
         url: `/inventory`
+    })
+}
+
+export const createMedicine =(data)=> {
+    return axios({
+        method: 'POST',
+        data,
+        url: `/medicine`
+    })
+}
+
+export const deleteMedicine =(id)=> {
+    return axios({
+        method: 'DELETE',
+        url: `/medicine/${id}`
     })
 }
 

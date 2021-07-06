@@ -10,63 +10,46 @@ const DataTable = ({ dataSource, loading }) => {
   const columns = [
     {
       title: '#',
-      width: 50,
+      width: 10,
       render: (value, record, i) => <a>{i + 1}</a>,
-    },
-    {
-      title: 'Code',
-      dataIndex: 'code',
-      key: 'code',
-      width: 100,
-      render: (value, record) => <a>{value || ''}</a>,
-    },
-    {
-      title: 'Customer',
-      dataIndex: 'customer',
-      key: 'customer',
-      className: 'text-left',
-      width: 200,
-      render: (value, record) =>
-        <div>
-          <span> {value?.name || ''} - {value?.phone || ''} </span>
-        </div>
     },
     {
       title: 'Date',
       dataIndex: 'created_at',
       key: 'created_at',
-      width: 150,
-      render: (value, record) => <a>{record?.created_at || ''}</a>,
+      width: 150, 
+      render: (value, record) => <a>{value || ''}</a>,
     },
     {
-      title: 'Symptom',
-      dataIndex: 'symptoms',
-      key: 'symptoms',
-      width: 200,
-      render: (value, record) => <a>{record?.symptoms || ''}</a>,
-    },
-    {
-      title: 'Disease',
-      dataIndex: 'diseases',
-      key: 'diseases',
-      width: 200,
-      render: (value, record) => <a>{record?.diseases || ''}</a>,
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      width: 100,
+      title: 'Patient',
+      key: 'customer',
+      className: 'text-left',
+      width: 50,
       render: (value, record) =>
         <div>
-          <span className={value == 1 ? 'text-info' : 'text-success'}>{value == 1 ? 'Pending' : 'Completed'}</span>
+          <span> {record?.customer?.name}</span>
         </div>
+    },
+    {
+      title: 'Revenue',
+      dataIndex: 'analysis_price',
+      key: 'total_price',
+      width: 100,
+      render: (value, record) => <a>{record?.analysis_price + record?.prescription_detail?.price_medicines || ''}</a>,
+    },
+    {
+      title: 'Ratio',
+      dataIndex: 'diseases',
+      key: 'ratio',
+      width: 50,
+      render: (value, record) => <a>{record?.total_price %   1 }</a>,
     },
   ]
   return (
     <Table
     columns={columns}
     dataSource={dataSource}
+    loading={loading}
     pagination={false}
     bordered
     summary={pageData => {

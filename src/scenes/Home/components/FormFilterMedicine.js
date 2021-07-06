@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import RenderSelect from '../../../share/components/RenderSelect'
 import RenderInputText from '../../../share/components/RenderInputText'
+import RenderNumberAnt from '../../../share/components/RenderNumberAnt'
 let ContactForm = props => {
     const { handleSubmit } = props
     return (

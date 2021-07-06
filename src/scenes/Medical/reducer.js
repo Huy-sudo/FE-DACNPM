@@ -34,6 +34,32 @@ function reducer(state = initialState, action) {
                 ...state,
                 loading: false
             }
+        case type.USES.REQUEST:
+            return {
+                ...state,
+            }
+        case type.USES.SUCCESS:
+            return {
+                ...state,
+                uses: action.data,
+            }
+        case type.USES.ERROR:
+            return {
+                ...state,
+            }
+            case type.UNIT.REQUEST:
+            return {
+                ...state,
+            }
+        case type.UNIT.SUCCESS:
+            return {
+                ...state,
+                unit: action.data,
+            }
+        case type.UNIT.ERROR:
+            return {
+                ...state,
+            }
         default:
             return state
     }

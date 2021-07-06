@@ -14,89 +14,42 @@ const DataTable = ({ dataSource, loading }) => {
       render: (value, record, i) => <a>{i + 1}</a>,
     },
     {
-      title: 'Date',
-      dataIndex: 'created_at',
-      key: 'date',
+      title: 'Medicine Name',
+      dataIndex: 'medicine_id',
       width: 100,
-      render: (value, record) => <a>{value || ''}</a>,
+      render: (value, record) => <a>{record?.medicine?.name || ''}</a>,
     },
     {
-      title: 'Number of patients',
-      dataIndex: 'customer',
-      key: 'customer',
+      title: 'Unit',
+      dataIndex: 'unit',
       className: 'text-left',
-      width: 200,
+      width: 50,
       render: (value, record) =>
         <div>
-          <span> {value?.name || ''} - {value?.phone || ''} </span>
+          <span> {record?.medicine?.unit?.value } </span>
         </div>
     },
     {
-      title: 'Date',
-      dataIndex: 'created_at',
-      key: 'created_at',
-      width: 150,
-      render: (value, record) => <a>{record?.created_at || ''}</a>,
-    },
-    {
-      title: 'Symptom',
-      dataIndex: 'symptoms',
-      key: 'symptoms',
-      width: 200,
-      render: (value, record) => <a>{record?.symptoms || ''}</a>,
-    },
-    {
-      title: 'Disease',
-      dataIndex: 'diseases',
-      key: 'diseases',
-      width: 200,
-      render: (value, record) => <a>{record?.diseases || ''}</a>,
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
+      title: 'Amount',
+      dataIndex: 'total_amount',
       width: 100,
-      render: (value, record) =>
-        <div>
-          <span className={value == 1 ? 'text-info' : 'text-success'}>{value == 1 ? 'Pending' : 'Completed'}</span>
-        </div>
+      render: (value, record) => <a>{record?.medicine.in_stock}</a>,
     },
+    {
+      title: 'Total time use',
+      dataIndex: 'total_uses',
+      width: 100,
+      render: (value, record) => <a>{record?.total_uses || ''}</a>,
+    },
+
   ]
   return (
     <Table
     columns={columns}
     dataSource={dataSource}
+    loading={loading}
     pagination={false}
     bordered
-    summary={pageData => {
-      let totalBorrow = 0;
-      let totalRepayment = 0;
-
-      pageData.forEach(({ borrow, repayment }) => {
-        totalBorrow += borrow;
-        totalRepayment += repayment;
-      });
-      return (
-        <>
-          <Table.Summary.Row>
-            <Table.Summary.Cell>Total</Table.Summary.Cell>
-            <Table.Summary.Cell>
-              <Text type="danger">{totalBorrow}</Text>
-            </Table.Summary.Cell>
-            <Table.Summary.Cell>
-              <Text>{totalRepayment}</Text>
-            </Table.Summary.Cell>
-          </Table.Summary.Row>
-          <Table.Summary.Row>
-            <Table.Summary.Cell>Balance</Table.Summary.Cell>
-            <Table.Summary.Cell colSpan={2}>
-              <Text type="danger">{totalBorrow - totalRepayment}</Text>
-            </Table.Summary.Cell>
-          </Table.Summary.Row>
-        </>
-      );
-    }}
   />
 
   );

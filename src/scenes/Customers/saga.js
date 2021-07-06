@@ -36,11 +36,11 @@ function* getListSaga(action) {
     try {
         const { params } = action
         let data = params
-        console.log(data);
         const response = yield call(api.create, data)
         if(response.status){
                 yield all([
                     put({type: TYPE.CREATE.SUCCESS, ...response}),
+                    put({type: TYPE.CUSTOMER.REQUEST, params:{status:1}})
                 ])
         }else{
           yield put({type: TYPE.CREATE.ERROR, error: response})
@@ -55,11 +55,11 @@ function* getListSaga(action) {
 function* CreatePrescriptionSaga(action) {
     try {
         const { data } = action
-        console.log(data);
         const response = yield call(apiPrescription.create, data)
         if(response.status){
                 yield all([
                     put({type: TYPE.PRESCRIPTION.SUCCESS, ...response}),
+                    yield put(push('/prescription'))
                 ])
         }else{
           yield put({type: TYPE.PRESCRIPTION.ERROR, error: response})
@@ -75,10 +75,10 @@ function* deleteCustomerSaga(action) {
     try {
         const { id } = action
         const response = yield call(api.destroy, id)
-        console.log(id);
         if(response.status){
                 yield all([
                     put({type: TYPE.DELETECUSTOMER.SUCCESS, ...response}),
+                    put({type: TYPE.CUSTOMER.REQUEST, params:{status:1}}),
                 ])
         }else{
           yield put({type: TYPE.DELETECUSTOMER.ERROR, error: response})

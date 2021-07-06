@@ -2,43 +2,44 @@ import { action_type as type } from './action'
 
 const initialState = {
     loading: false,
-    data: []
+    prescription: [],
+    medicine: []
 }
 
 function reducer(state = initialState, action) {
     switch (action.type) {
-        case type.PRESCRIPTION.REQUEST:
+        case type.GETPRESCRIPTION.REQUEST:
             return {
                 ...state,
                 loading: true
             }
-        case type.PRESCRIPTION.SUCCESS:
+        case type.GETPRESCRIPTION.SUCCESS:
             return {
                 ...state,
-                    data: action.data,
-                    loading: false,
+                prescription: action.data,
+                loading: false,
             }
-        case type.PRESCRIPTION.ERROR:
+        case type.GETPRESCRIPTION.ERROR:
             return {
                 ...state,
-                    loading: false,
-            }    
-            case type.MEDICINE.REQUEST:
+                loading: false,
+            }
+        case type.GETMEDICINE.REQUEST:
             return {
                 ...state,
                 loading: true
             }
-        case type.MEDICINE.SUCCESS:
+        case type.GETMEDICINE.SUCCESS:
             return {
                 ...state,
-                    data: action.data,
-                    loading: false,
+                medicine: action.data,
+                loading: false,
             }
-        case type.MEDICINE.ERROR:
+        case type.GETMEDICINE.ERROR:
             return {
                 ...state,
-                    loading: false,
-            }    
+                loading: false,
+            }
         default:
             return state
     }

@@ -18,9 +18,10 @@ function* getListSaga(action) {
           const { params } = action
           let data = params
           const response = yield call(api.signup, data)
+          console.log(response);
           if(response.status){
                   yield all([
-                      put({type: TYPE.SIGNUP.SUCCESS, ...response.message}),
+                      put({type: TYPE.SIGNUP.SUCCESS, ...response}),
                   ])
                   yield delay(1000)
                   yield put(push('/login'));

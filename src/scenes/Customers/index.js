@@ -40,8 +40,14 @@ class index extends Component {
     handleShowForm = (value) => {
         this.setState({ showForm: value || false })
     }
+    
+    handleCloseModal = (value) => {
+        this.setState({ showForm: false })
+    }
+
     handleAddCustomer = (value) => {
         this.props.addCustomer(value)
+        this.setState({ showForm: false })
     }
   
     addPrescription = (value) => {
@@ -71,6 +77,7 @@ class index extends Component {
                             initialValues={initialValueFormAddCustomer}
                             onSubmit={this.handleSubmitFilter}
                         />
+                        <button onClick={() => this.handleShowForm(true)} className="btn-primary btn px-2 mb-3 ml-10"> Create Customer</button>
                     {/* <Spin spinning={customers.loading} style={{ backgroundColor: '#fafafa' }}> */}
                         <DataTable
                             dataSource={customers.data || []}
@@ -78,6 +85,23 @@ class index extends Component {
                             createPrescription={this.addPrescription}
                             deleteCustomer={this.deleteCustomer}
                         />
+                        <Modal
+                            title="Add Customer"
+                            visible={showForm}
+                            closable={false}
+                            onCancel={this.props.handleCloseModal}
+                            footer={null}
+                        >
+                            <FormAddCustomer
+                                destroyOnClose={true}
+                                keyboard={true}
+                                maskClosable={true}
+                                onCancel={() => this.handleShowForm(false)}
+                                initialValues={{ amount: 1 }}
+                                onSubmit={this.handleAddCustomer}
+                                handleShowForm={this.handleShowForm}
+                            />
+                        </Modal>
                     {/* </Spin> */}
                 </Layout>
             </div>

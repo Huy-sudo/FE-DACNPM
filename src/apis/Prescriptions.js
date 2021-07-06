@@ -18,6 +18,14 @@ export const create =(data)=> {
     })
 }
 
+export const createInventory =(data)=> {
+    return axios({
+        method: 'POST',
+        data,
+        url: `inventory`
+    })
+}
+
 export const getDetail =(id)=> {
     return axios({
         method: 'GET',

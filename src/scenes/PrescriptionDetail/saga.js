@@ -180,6 +180,24 @@ function* updateBill(action) {
         ])
     }
 }
+
+function* createInventory(action) {
+    try {
+        const { params } = action
+        const response = yield call(api.createInventory, params)
+        if(response.status){
+                yield all([
+                    put({type: TYPE.CREATEINVENTORY.SUCCESS, ...response}),
+                ])
+        }else{
+          yield put({type: TYPE.CREATEINVENTORY.ERROR, error: response})
+        }
+    } catch (error) {
+        yield all([
+            put({type: TYPE.CREATEINVENTORY.ERROR, error})
+        ])
+    }
+}
   
   function* watcher() {
       yield all([
@@ -191,7 +209,8 @@ function* updateBill(action) {
           takeLatest(TYPE.USES.REQUEST, getListUseSaga),
           takeLatest(TYPE.DELETEMEDICINEPD.REQUEST, deleteMedicinePD),
           takeLatest(TYPE.CREATEBILL.REQUEST, createBill),
-          takeLatest(TYPE.UPDATEBILL.REQUEST, updateBill)
+          takeLatest(TYPE.UPDATEBILL.REQUEST, updateBill),
+          takeLatest(TYPE.CREATEINVENTORY.REQUEST, createInventory)
       ])
   }
   

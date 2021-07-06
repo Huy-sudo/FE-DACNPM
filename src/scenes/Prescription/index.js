@@ -19,16 +19,16 @@ class index extends Component {
         this.handleSubmitFilter(this.state.initial_filter_values)
     }
 
-    handleSubmitFilter = ({date,customer_name,...values}) => {
+    handleSubmitFilter = ({date,...values}) => {
         let params = {
             ...values,
-            customer_id: this.props.match.params?.id || null,
             status:1,
             data_customer:1
            }
         if(date){
             params.from_date =  params.to_date = date.format('YYYY-MM-DD')
         } 
+        console.log(params);
         this.props.history.replace(window.location.pathname + '?' + queryString.stringify(params));
         this.props.getList(params)
     }

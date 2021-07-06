@@ -42,11 +42,11 @@ const DataTable = ({ dataSource, loading, createPrescription, deleteCustomer }) 
       className: 'text-left',
       render: (value, record) =>
         <div>
-          <span> 0{value || ''} </span>
+          <span> {value || ''} </span>
         </div>
     },
     {
-      title: 'Sex',
+      title: 'Gender',
       dataIndex: 'sex',
       key: 'sex',
       className: 'text-left',
@@ -73,16 +73,6 @@ const DataTable = ({ dataSource, loading, createPrescription, deleteCustomer }) 
       render: (value, record) =>
         <div>
           <span> {value || ''} </span>
-        </div>
-    },
-    {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      width: 150,
-      render: (value, record) =>
-        <div>
-          <span className={value == 1 ? 'badge-success badge p-2' : 'badge badge-danger p-2'}>{value == 1 ? 'Activate' : 'Deleted'}</span>
         </div>
     },
     {

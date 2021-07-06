@@ -6,11 +6,11 @@ import RenderNumberAnt from '../../../share/components/RenderNumberAnt'
 import RenderSelect from '../../../share/components/RenderSelect'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSave, faTimes } from '@fortawesome/free-solid-svg-icons'
-let ModalAddCustomer = props => {
-    const { handleSubmit, handleShowForm, medical = [] } = props
+let ModalCreateCustomer = props => {
+    const { handleSubmit, handleShowFormMedicine, unit = [] } = props
     
-    let options = medical.map(d=>{
-        return {label: d.name, value: d.code }
+    let options = unit.map(d=>{
+        return {label: d.value, value: d.id }
     }) || []
 
     return (
@@ -19,42 +19,49 @@ let ModalAddCustomer = props => {
                     <div className='col-6 mb-3 text-left' >
                         <label className="font-weight-bold text-muted">Code:</label>
                         <Field
-                            name="medicine_code"
-                            component={RenderSelect}
-                            options={options}
-                            placeholder='medicine'
+                            name="code"
+                            component={RenderInputText}
+                            placeholder='Code'
                         />
                     </div>
                     <div className='col-6 mb-3 text-left' >
-                    <label className="font-weight-bold text-muted">Amount:</label>
+                        <label className="font-weight-bold text-muted">Name:</label>
                         <Field
-                            min={1}
-                            name="amount"
-                            component={RenderNumberAnt}
-                            placeholder='Amount'
+                            name="name"
+                            component={RenderInputText}
+                            placeholder='Name'
                         />
                     </div>
-                    {/* <div className='col-6 mb-3 text-left' >
-                    <label className="font-weight-bold text-muted">Cost:</label>
+                    <div className='col-6 mb-3 text-left' >
+                        <label className="font-weight-bold text-muted">Unit:</label>
+                        <Field
+                            name="unit"
+                            component={RenderSelect}
+                            placeholder='Unit'
+                            options={options}
+                        />
+                    </div>
+                    <div className='col-6 mb-3 text-left' >
+                        <label className="font-weight-bold text-muted">Cost:</label>
                         <Field
                             name="cost_per_med"
                             component={RenderNumberAnt}
                             placeholder='Cost'
                             min={1000}
                         />
-                    </div> */}
+                    </div>
                     <div className='col-12 text-center'>
                     <button className='btn btn-primary mr-3' type="submit"> <FontAwesomeIcon icon={faSave} /> Save</button>
-                    <a onClick={()=>handleShowForm(false)} className='btn btn-secondary'> <FontAwesomeIcon icon={faTimes} /> Cancel</a>
+                    <a onClick={()=>handleShowFormMedicine(false)} className='btn btn-secondary'> <FontAwesomeIcon icon={faTimes} /> Cancel</a>
                     </div>
             </div>
         </form>
     )
 }
 
-ModalAddCustomer = reduxForm({
+ModalCreateCustomer = reduxForm({
     enableReinitialize: true,
-    form: 'FormAddCustomer'
-})(ModalAddCustomer)
+    form: 'FormCreateCustomer'
+})(ModalCreateCustomer)
 
-export default ModalAddCustomer
+export default ModalCreateCustomer

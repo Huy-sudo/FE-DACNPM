@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Table, Spin } from 'antd';
+import { Table, Spin, Space, Tooltip } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faSave, faSearch, faEdit } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faInfo, faExclamation, faEdit } from '@fortawesome/free-solid-svg-icons'
 import EditValue from "./EditValue";
 
-const DataTable = ({ dataSource, loading, medical, update }) => {
+const DataTable = ({ dataSource, loading, medical, update, deleteMedicine }) => {
   const [isUpdate, setIsUpdate] = useState(0)
+
+
+  const onSubmit = (values) => {
+    deleteMedicine(values)
+  }
 
   const handleCancelEdit = () => {
     setIsUpdate(0)
@@ -18,7 +23,6 @@ const DataTable = ({ dataSource, loading, medical, update }) => {
     }
     update(data)
 }
-
 
   useEffect(() => {
     setIsUpdate(0)
@@ -52,7 +56,7 @@ const DataTable = ({ dataSource, loading, medical, update }) => {
       className: 'text-left',
       render: (value, record) =>
         <div>
-          <span> {record?.unit?.id + ' - ' + record?.unit?.value || ''}  </span>
+          <span> {record?.unit?.value || ''}  </span>
         </div>
     },
     {
@@ -84,15 +88,20 @@ const DataTable = ({ dataSource, loading, medical, update }) => {
         </div>
     },
     {
-      title: 'Status',
-      dataIndex: 'status',
-      key: 'status',
-      width: 150,
-      render: (value, record) =>
-        <div>
-          <span className={value == 1 ? 'badge-success badge' : 'badge badge-danger'}>{value == 1 ? 'Active' : 'Inactive'}</span>
-        </div>
-    },
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <Space >
+          <button onClick={() => onSubmit(record?.id)} className="btn btn-sm btn-primary">
+            <Tooltip placement="top" title="Delete Medicine">
+              <span className="px-2">
+                <FontAwesomeIcon icon={faExclamation} />
+              </span>
+            </Tooltip>
+          </button>
+          </Space>
+        )
+    }
   ]
   return (
     <Table

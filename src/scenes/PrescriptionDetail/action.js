@@ -43,6 +43,11 @@ export const action_type = {
         REQUEST: "UPDATEBILL.REQUEST",
         SUCCESS: "UPDATEBILL.SUCCESS",
         ERROR: "UPDATEBILL.ERROR"
+    },
+    CREATEINVENTORY: {
+        REQUEST: "CREATEINVENTORY.REQUEST",
+        SUCCESS: "CREATEINVENTORY.SUCCESS",
+        ERROR: "CREATEINVENTORY.ERROR"
     }
 }
 
@@ -113,5 +118,12 @@ export function updateBill (id, data){
         type: action_type.UPDATEBILL.REQUEST,
         id,
         data
+    }
+}
+
+export function createInventory (params){
+    return {
+        type: action_type.CREATEINVENTORY.REQUEST,
+        params
     }
 }

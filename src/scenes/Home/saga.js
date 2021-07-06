@@ -16,14 +16,14 @@ function* getListPrescriptionSaga(action) {
           const response = yield call(api.getListPrescription, params)
           if(response.status){
                   yield all([
-                      put({type: TYPE.PRESCRIPTION.SUCCESS, ...response}),
+                      put({type: TYPE.GETPRESCRIPTION.SUCCESS, ...response}),
                   ])
           }else{
-            yield put({type: TYPE.PRESCRIPTION.ERROR, error: response})
+            yield put({type: TYPE.GETPRESCRIPTION.ERROR, error: response})
           }
       } catch (error) {
           yield all([
-              put({type: TYPE.PRESCRIPTION.ERROR, error})
+              put({type: TYPE.GETPRESCRIPTION.ERROR, error})
           ])
       }
   }
@@ -34,22 +34,22 @@ function* getListPrescriptionSaga(action) {
         const response = yield call(api.getListMedicine, params)
         if(response.status){
                 yield all([
-                    put({type: TYPE.MEDICINE.SUCCESS, ...response}),
+                    put({type: TYPE.GETMEDICINE.SUCCESS, ...response}),
                 ])
         }else{
-          yield put({type: TYPE.MEDICINE.ERROR, error: response})
+          yield put({type: TYPE.GETMEDICINE.ERROR, error: response})
         }
     } catch (error) {
         yield all([
-            put({type: TYPE.MEDICINE.ERROR, error})
+            put({type: TYPE.GETMEDICINE.ERROR, error})
         ])
     }
 }
   
   function* watcher() {
       yield all([
-          takeLatest(TYPE.PRESCRIPTION.REQUEST, getListPrescriptionSaga),
-          takeLatest(TYPE.MEDICINE.REQUEST, getListMedicineSaga),
+          takeLatest(TYPE.GETPRESCRIPTION.REQUEST, getListPrescriptionSaga),
+          takeLatest(TYPE.GETMEDICINE.REQUEST, getListMedicineSaga),
       ])
   }
   
