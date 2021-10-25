@@ -15,12 +15,12 @@ function reducer(state = initialState, action) {
         case type.LOGIN.SUCCESS:
             return {
                 ...state,
-                    loading: false,
+                loading: false,
             }
         case type.LOGIN.ERROR:
             return {
                 ...state,
-                    loading: false,
+                loading: false,
             }    
         case type.VERIFY.REQUEST:
             return {
