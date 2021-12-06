@@ -28,7 +28,6 @@ const profile = () => {
                     <FontAwesomeIcon style={{fontSize: 20}} icon={faSortDown}/>
                 </Space>
             </Dropdown> 
-            
         </div>
     );
 }
